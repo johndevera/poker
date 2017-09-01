@@ -65,6 +65,7 @@ public class Table {
 		deck.shuffle();
 		
 		System.out.println("Now in GitHub");
+		System.out.println("Works great");
 		
 		System.out.println();
 		System.out.println("Game #" + gameNum);
