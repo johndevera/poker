@@ -7,6 +7,8 @@ public class ActionValidator {
 	
 	//Test Comment
 	//
+	//
+	//
 	private static EnumMap<DecisionType, Integer> actionsAvailable = new EnumMap<DecisionType, Integer>(DecisionType.class);
 	
 	public static EnumMap<DecisionType, Integer> getPossibleActions(int stack, int currentBet, int myBet, int currentPot){
