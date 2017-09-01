@@ -168,80 +168,80 @@ public class Table {
 			currentAction = firstToAct;
 			pendingQ.add(pendingQ.remove()); //take the SB and put them to the back
 			pendingQ.add(pendingQ.remove()); //take the BB and put them to the back
-			//this.currentPot = SMALL_BLIND + BIG_BLIND;
 			
 		}
 		//players position is set by currentAction
-		
-		
-		
-		//while (pendingQ.size() != 0) {
-			if(firstToAct == playerHands.size()) firstToAct = 0;
-			else if (firstToAct == playerHands.size() + 1) firstToAct = 1;
-							
-			boolean allHandsPlayed = false;
-			
-			//int[] playerBets = new int[playerHands.size()];
-			List<Integer> playerBets = new ArrayList<>();
-			
-			while(!pendingQ.isEmpty()) {
-			//while(currentAction < playerHands.size() && !allHandsPlayed) {
-				
-				PlayerHand playerHand 	= playerHands.get(currentAction);
-				Player currentPlayer 	= playerHand.getPlayer();
-				Hand currentHand 		= playerHand.getHand();
-				
-				
-				Decision decision = 
-						currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null);	
-				
-				System.out.println(currentPlayer + ": " + decision.getType() + ": " + decision.getAmount());
-				
-				game.addPreFlopDecision(currentPlayer, decision);						
-				
-				//playerBets.add(currentAction, decision.getAmount());
-				
-				DecisionType choice = decision.getType();
-				if (choice == DecisionType.RAISE) { //raise NEEDS TO BE WORKED ON. LOGIC STEP THROUGH
-					game.setBet(decision.getAmount());
-					//currentPlayer.myBet = decision.getAmount();
-					//playerBets[currentAction] = decision.getAmount();
-					pendingQ.remove();
-					//finishedQ.
-					while(!finishedQ.isEmpty())
-						pendingQ.add(finishedQ.remove());
-					finishedQ.add(playerHands.get(currentAction));
-					
-				}
-				else if(choice == DecisionType.CALL || choice == DecisionType.CHECK) { //call or check. Preflop all calls -> queues work well.
-					//if(game.getCurrentBet() > 0)
-						//game.setBet(decision.getAmount());
-					pendingQ.remove(); //this is playerHands.get(currentAction)
-					finishedQ.add(playerHands.get(currentAction));
-				}	
-				else if (choice == DecisionType.FOLD){
-					playerHands.remove(currentAction); //fold. Seems to work well
-					pendingQ.remove();
-					currentAction--;
-				}
-				else { // all in
-					game.setBet(decision.getAmount());
-				}
 
-				//game.playerBets[currentAction] = decision.getAmount(); //whatever action is done, that person's bet becomes that amount.
-				currentPlayer.setMyBet(decision.getAmount());
-				game.increasePot(decision.getAmount());
-				System.out.println("Pot: " + game.getPot());
-				currentAction++;
+		if(firstToAct == playerHands.size()) firstToAct = 0;
+		else if (firstToAct == playerHands.size() + 1) firstToAct = 1;
+						
+		boolean allHandsPlayed = false;
+
+		List<Integer> playerBets = new ArrayList<>(playerHands.size()); //used for holding an array of each player's current called value
+		playerBets.add(0, SMALL_BLIND);
+		playerBets.add(1, BIG_BLIND);
+		for(int i = 2; i < playerHands.size(); i++) {
+			playerBets.add(i, 0);
+		}
+
+		while(!pendingQ.isEmpty()) {
+		//while(currentAction < playerHands.size() && !allHandsPlayed) {
+			
+			PlayerHand playerHand 	= playerHands.get(currentAction);
+			Player currentPlayer 	= playerHand.getPlayer();
+			Hand currentHand 		= playerHand.getHand();
+			
+			
+			Decision decision = 
+					currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null);	
+			
+			System.out.println(currentPlayer + ": " + decision.getType() + ": " + decision.getAmount());
+			
+			game.addPreFlopDecision(currentPlayer, decision);						
+			int bet = decision.getAmount();
+			
+			DecisionType choice = decision.getType();
+			if (choice == DecisionType.RAISE) { //raise NEEDS TO BE WORKED ON. LOGIC STEP THROUGH
+				playerBets.set(currentAction, bet);
+				game.setBet(decision.getAmount());
+				pendingQ.remove();
+				while(!finishedQ.isEmpty())
+					pendingQ.add(finishedQ.remove());
+				finishedQ.add(playerHands.get(currentAction));
 				
-				if(currentAction == playerHands.size()) {
-					currentAction = 0;
-				}
-				
-				if(currentAction == firstToAct) {
-					allHandsPlayed = true;
-				}
 			}
+			else if(choice == DecisionType.CALL || choice == DecisionType.CHECK) { //call or check. Preflop all calls -> queues work well.
+				playerBets.set(currentAction, bet);
+				pendingQ.remove(); //this is playerHands.get(currentAction)
+				finishedQ.add(playerHands.get(currentAction));
+			}	
+			else if (choice == DecisionType.FOLD){
+				playerBets.remove(currentAction);
+				playerHands.remove(currentAction); //fold. Seems to work well
+				pendingQ.remove();
+				currentAction--;
+			}
+			else { // all in
+				playerBets.set(currentAction, bet);
+				game.setBet(decision.getAmount());
+			}
+			
+			//game.playerBets[currentAction] = decision.getAmount(); //whatever action is done, that person's bet becomes that amount.
+			
+			//playerBets.set(currentAction, bet);
+			currentPlayer.setMyBet(decision.getAmount());
+			game.increasePot(decision.getAmount());
+			System.out.println("Pot: " + game.getPot());
+			currentAction++;
+			
+			if(currentAction == playerHands.size()) {
+				currentAction = 0;
+			}
+			
+			if(currentAction == firstToAct) {
+				allHandsPlayed = true;
+			}
+		}
 	return playerHands;
 	}
 	
