@@ -4,7 +4,15 @@ import java.util.EnumMap;
 import poker.framework.DecisionType;
 
 public class ActionValidator {
+//<<<<<<< HEAD
 	//hello
+//=======
+	
+	//Test Comment
+	//
+	//
+	//
+//>>>>>>> branch 'master' of https://github.com/johndevera/poker.git
 	private static EnumMap<DecisionType, Integer> actionsAvailable = new EnumMap<DecisionType, Integer>(DecisionType.class);
 	
 	public static EnumMap<DecisionType, Integer> getPossibleActions(int stack, int currentBet, int myBet, int currentPot){
