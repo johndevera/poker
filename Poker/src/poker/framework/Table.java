@@ -185,15 +185,13 @@ public class Table {
 		}
 
 		while(!pendingQ.isEmpty()) {
-		//while(currentAction < playerHands.size() && !allHandsPlayed) {
 			
 			PlayerHand playerHand 	= playerHands.get(currentAction);
 			Player currentPlayer 	= playerHand.getPlayer();
 			Hand currentHand 		= playerHand.getHand();
 			
 			
-			Decision decision = 
-					currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null);	
+			Decision decision = currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null);	
 			
 			System.out.println(currentPlayer + ": " + decision.getType() + ": " + decision.getAmount());
 			
