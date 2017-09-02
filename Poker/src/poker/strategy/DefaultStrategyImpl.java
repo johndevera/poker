@@ -1,5 +1,6 @@
 package poker.strategy;
 
+import poker.FiveCardHand;
 import poker.PocketHand;
 import poker.framework.ActionValidator;
 import poker.framework.Card;
@@ -11,6 +12,9 @@ import poker.framework.HandEvaluator;
 import poker.framework.Player;
 import poker.framework.Street;
 import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
 import poker.framework.Table;
 
 public class DefaultStrategyImpl implements IStrategy {
@@ -126,20 +130,102 @@ public class DefaultStrategyImpl implements IStrategy {
 
 	@Override
 	public Decision flopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
-		// TODO Auto-generated method stub
-		return null;
+		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, currentBet, options);		
 	}
 
 	@Override
 	public Decision turnDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
-		// TODO Auto-generated method stub
-		return null;
+		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, currentBet, options);
 	}
 
 	@Override
 	public Decision riverDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
-		// TODO Auto-generated method stub
-		return null;
+		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, currentBet, options);
+	}
+	
+	/**
+	 * Creating this method to test simple, dummy betting behavior
+	 */
+	private Decision doSimpleDecisionMaking(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
+		
+		List<Card> playerCards = game.getCommunityCards();
+		playerCards.add(hand.getFirst());
+		playerCards.add(hand.getSecond());
+
+		FiveCardHand fiveCardHand = null;
+		
+		if(playerCards.size() == 5) {
+			fiveCardHand = HandEvaluator.evaluate(playerCards.toArray(new Card[0]));
+		}
+		else if(playerCards.size() == 6) {
+			fiveCardHand = HandEvaluator.evaluateSix(playerCards.toArray(new Card[0]));
+		}
+		else if(playerCards.size() == 7) {
+			fiveCardHand = HandEvaluator.evaluateSeven(playerCards.toArray(new Card[0]));			
+		}
+				
+		Decision decision = null;
+		
+		int pot = game.getPot();
+		
+		int numRaises = howManyTimesHasItBeenRaisedInThisStreet(game);
+		
+		if(fiveCardHand.getValue() >= FiveCardHand.TWO_PAIR.getValue()) {
+			
+			if(numRaises <= 2) {
+				double twoThirdsPot = (double) (0.65 * pot);
+				decision = new Decision(DecisionType.RAISE, (int) twoThirdsPot);
+			}
+			else {
+				decision = new Decision(DecisionType.CALL, currentBet);
+			}
+		}
+		else if (fiveCardHand.getValue() == FiveCardHand.ONE_PAIR.getValue()) {
+			
+			if(numRaises <= 2) {
+				double halfPot = (double) (0.50 * pot);
+				decision = new Decision(DecisionType.RAISE, (int) halfPot);	
+			}
+			else {
+				decision = new Decision(DecisionType.CALL, currentBet);
+			}
+		}
+		else if (fiveCardHand.getValue() < FiveCardHand.ONE_PAIR.getValue()) {
+			
+			decision = (currentBet == 0)
+				? new Decision(DecisionType.CHECK, 0)
+				: new Decision(DecisionType.FOLD, 0);			
+		}
+		
+		// Final validation - make sure not to exceed player's stack size
+		if(decision.getAmount() >= player.getStack()) {
+			decision = new Decision(DecisionType.ALL_IN, player.getStack());
+		}
+		return decision;
 	}
 
+	private int howManyTimesHasItBeenRaisedInThisStreet(Game game) {
+		
+		int numRaises = 0;
+		Map<Player, List<Decision>> allDecisionsThisStreet = null;
+		if(game.getCurrentStreet() == Street.FLOP) {
+			allDecisionsThisStreet = game.getFlopDecisions();
+		}
+		else if(game.getCurrentStreet() == Street.TURN) {
+			allDecisionsThisStreet = game.getTurnDecisions();
+		}
+		else {
+			allDecisionsThisStreet = game.getRiverDecisions();
+		}
+			
+		for(List<Decision> playerDecisions : allDecisionsThisStreet.values()) {
+			
+			for(Decision decision : playerDecisions) {
+				if(decision.getType() == DecisionType.RAISE) {
+					numRaises++;
+				}
+			}
+		}
+		return numRaises;
+	}
 }

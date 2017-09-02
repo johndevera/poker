@@ -6,17 +6,15 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 import poker.strategy.DefaultStrategyImpl;
+import poker.FiveCardHand;
 import poker.framework.Game;
-//import sun.misc.Queue;
 
 public class Table {
 	
 	private Deck deck;
 	
-	private static final int SMALL_BLIND = 2;
-	private static final int BIG_BLIND = 5;
-	
-	//int currentPot = SMALL_BLIND + BIG_BLIND;
+	private static final int BIG_BLIND 		= 5;
+	private static final int SMALL_BLIND 	= BIG_BLIND/2;
 	
 	private static final String SMALL_BLIND_IND 	= "( SB)";
 	private static final String BIG_BLIND_IND 		= "( BB)";
@@ -25,8 +23,6 @@ public class Table {
 	private static final String OTHER 				= "(   )";
 		
 	private int smallBlind = 0;
-	//private int firstToAct = null;
-	//private int current
 	
 	public void open() {
 		deck = new Deck();
@@ -52,8 +48,8 @@ public class Table {
 		}
 		
 		for(int i = 0; i < positions.length; i++) {
-			System.out.print(positions[i] + ", ");
-			
+			Player player = positions[i];
+			System.out.print(player + "[" + player.getStack() + "], ");			
 		}
 		System.out.println();
 		return positions;
@@ -64,42 +60,45 @@ public class Table {
 		deck.init();
 		deck.shuffle();
 		
-		System.out.println("Now in GitHub");
-		System.out.println("Works great");
-		
 		System.out.println();
 		System.out.println("Game #" + gameNum);
 		System.out.println("---------");
 		
-		Game game = new Game(getPlayerPositions(players));
+		Game game = new Game(getPlayerPositions(players), BIG_BLIND);
 		
 		List<PlayerHand> playerHands = deal(deck, players);
-		//List<Integer> playerBets = playerHands;
-		//game.increasePot(SMALL_BLIND + BIG_BLIND);
 
 		System.out.println("--------PREFLOP------");
 		preflop(game, deck, playerHands);
 		System.out.println(" ");
+		if(playerHands.size() == 1) return;
 		
 		System.out.println("--------FLOP------");
-		flop(game, deck, playerHands);
+		nextStreet(game, deck, playerHands);
 		System.out.println(" ");
+		if(playerHands.size() == 1) return;
 		
 		System.out.println("--------TURN------");
-		turn(game, deck, playerHands);
+		nextStreet(game, deck, playerHands);
 		System.out.println(" ");
+		if(playerHands.size() == 1) return;
 		
 		System.out.println("--------RIVER------");
-		river(game, deck, playerHands);
+		nextStreet(game, deck, playerHands);
+		if(playerHands.size() == 1) return;
+		
+		// At this point, there are multiple players who made it through the river.  Now it's time to determine the winner in a showdown.
+		Player [] winners = determineWinners(game, playerHands);
+
+		// Pay the pot to the winners
+		emptyPot(winners, game);
+		
 		System.out.println(" ");
-		
-		
-		
+
 		deck.draw();
 		
 		smallBlind++;
-		
-		
+
 		if(smallBlind == players.size()) {
 			smallBlind = 0;
 		}
@@ -131,7 +130,7 @@ public class Table {
 			String positionIndicator = "";
 			if(smallBlind == i) positionIndicator 		= SMALL_BLIND_IND;
 			else if(bigBlind == i) positionIndicator 	= BIG_BLIND_IND;
-			else if(underTheGun == i) positionIndicator 	= UNDER_THE_GUN_IND;
+			else if(underTheGun == i) positionIndicator = UNDER_THE_GUN_IND;
 			else if(dealer == i) positionIndicator 		= DEALER_IND;
 			else positionIndicator						= OTHER;
 			
@@ -147,7 +146,7 @@ public class Table {
 			String positionIndicator = "";
 			if(smallBlind == i) positionIndicator 		= SMALL_BLIND_IND;
 			else if(bigBlind == i) positionIndicator 	= BIG_BLIND_IND;
-			else if(underTheGun == i) positionIndicator 	= UNDER_THE_GUN_IND;
+			else if(underTheGun == i) positionIndicator = UNDER_THE_GUN_IND;
 			else if(dealer == i) positionIndicator 		= DEALER_IND;
 			else positionIndicator						= OTHER;
 			
@@ -176,32 +175,41 @@ public class Table {
 		else if (firstToAct == playerHands.size() + 1) firstToAct = 1;
 						
 		boolean allHandsPlayed = false;
-
-		List<Integer> playerBets = new ArrayList<>(playerHands.size()); //used for holding an array of each player's current called value
-		playerBets.add(0, SMALL_BLIND);
-		playerBets.add(1, BIG_BLIND);
-		for(int i = 2; i < playerHands.size(); i++) {
-			playerBets.add(i, 0);
-		}
-
-		while(!pendingQ.isEmpty()) {
-			
+		
+		while(pendingQ.size() > 0) {
 			PlayerHand playerHand 	= playerHands.get(currentAction);
 			Player currentPlayer 	= playerHand.getPlayer();
 			Hand currentHand 		= playerHand.getHand();
+
+			if(game.isPlayerAllIn(currentPlayer)) {
+				System.out.println("--" + currentPlayer + " is already all in.  No decisions--");
+				finishedQ.add(pendingQ.remove());
+				continue; // This means go back to top of the loop...
+			}
 			
+			Decision decision = 
+					currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null);	
 			
-			Decision decision = currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null);	
-			
-			System.out.println(currentPlayer + ": " + decision.getType() + ": " + decision.getAmount());
-			
-			game.addPreFlopDecision(currentPlayer, decision);						
+			if(game.getCurrentStreet() == Street.PRE_FLOP) {
+				game.addPreFlopDecision(currentPlayer, decision);	
+			}
+			else if(game.getCurrentStreet() == Street.FLOP) {
+				game.addFlopDecision(currentPlayer, decision);	
+			}
+			else if(game.getCurrentStreet() == Street.TURN) {
+				game.addTurnDecision(currentPlayer, decision);	
+			}
+			else {
+				game.addRiverDecision(currentPlayer, decision);
+			}
+									
 			int bet = decision.getAmount();
 			
 			DecisionType choice = decision.getType();
 			if (choice == DecisionType.RAISE) { //raise NEEDS TO BE WORKED ON. LOGIC STEP THROUGH
-				playerBets.set(currentAction, bet);
-				game.setBet(decision.getAmount());
+				game.setBet(bet);
+				System.out.println("--" + currentPlayer + " raises|bets--");
+				increasePot(currentPlayer, game, bet);
 				pendingQ.remove();
 				while(!finishedQ.isEmpty())
 					pendingQ.add(finishedQ.remove());
@@ -209,27 +217,29 @@ public class Table {
 				
 			}
 			else if(choice == DecisionType.CALL || choice == DecisionType.CHECK) { //call or check. Preflop all calls -> queues work well.
-				playerBets.set(currentAction, bet);
+				if(choice == DecisionType.CALL) {
+					System.out.println("--" + currentPlayer + " calls--");
+					increasePot(currentPlayer, game, bet);
+				}
+				else {
+					System.out.println("--" + currentPlayer + " checks--");
+				}
 				pendingQ.remove(); //this is playerHands.get(currentAction)
 				finishedQ.add(playerHands.get(currentAction));
 			}	
 			else if (choice == DecisionType.FOLD){
-				playerBets.remove(currentAction);
+				System.out.println("--" + currentPlayer + " folds--");
 				playerHands.remove(currentAction); //fold. Seems to work well
 				pendingQ.remove();
 				currentAction--;
 			}
 			else { // all in
-				playerBets.set(currentAction, bet);
-				game.setBet(decision.getAmount());
+				game.setBet(bet);
+				game.addAllInPlayer(currentPlayer);
+				System.out.println("--" + currentPlayer + " all-in--");
+				increasePot(currentPlayer, game, bet);
 			}
-			
-			//game.playerBets[currentAction] = decision.getAmount(); //whatever action is done, that person's bet becomes that amount.
-			
-			//playerBets.set(currentAction, bet);
-			currentPlayer.setMyBet(decision.getAmount());
-			game.increasePot(decision.getAmount());
-			System.out.println("Pot: " + game.getPot());
+
 			currentAction++;
 			
 			if(currentAction == playerHands.size()) {
@@ -239,54 +249,168 @@ public class Table {
 			if(currentAction == firstToAct) {
 				allHandsPlayed = true;
 			}
+			
+			try {
+				Thread.sleep(50);
+			}catch(Exception e) {
+					e.printStackTrace();
+			}
 		}
-	return playerHands;
+		return playerHands;
 	}
 	
-	private List<PlayerHand> preflop(Game game, Deck deck, List<PlayerHand> playerHands) {
-		game.resetPot();
-		game.increasePot(SMALL_BLIND + BIG_BLIND);
-		game.setBet(0);
-		return betting(game, playerHands, true);
+	/**
+	 * This method is synchronized because we need to ensure increasing pot + deducting amount from player is an atomic transaction
+	 */
+	private synchronized void increasePot(Player player, Game game, int amount) {
+		player.deduct(amount);
+		game.increasePot(amount);
+		System.out.println(player + " -" + amount + " ... pot = " + game.getPot());
 	}
 	
-	private List<PlayerHand> flop(Game game, Deck deck, List<PlayerHand> playerHands) {
-		game.setBet(0);
-		return betting(game, playerHands, false);
+	/**
+	 * This method is synchronized because we need to ensure emptying pot + adding amount to player(s) is an atomic transaction
+	 * Multiple players are passed in case of a split pot
+	 */
+	private synchronized void emptyPot(Player [] players, Game game) {
+		
+		int pot = game.getPot();
+		
+		int numWinningPlayers = players.length;
+		
+		int splitPot = pot/numWinningPlayers;
+		
+		for(Player player : players) {
+			player.add(splitPot);
+			System.out.println("--" + player + " wins--");
+			System.out.println(player + " +" + splitPot);
+		}
+		
+		pot -= (splitPot * numWinningPlayers);
+		
+		// In a split pot situation where the money doesn't divide equally, by default, just give the full remainder to the first player.
+		// This logic can be changed when doing more fine-tuning.
+		if(pot > 0) {			
+			players[0].add(pot);
+		}
+		
+		game.resetPot(); // back to zero
 	}
+	
+	private void preflop(Game game, Deck deck, List<PlayerHand> playerHands) {
+		
+		Player smallBlindPlayer = playerHands.get(0).getPlayer();
+		Player bigBlindPlayer 	= playerHands.get(1).getPlayer();
+		
+		increasePot(smallBlindPlayer, game, SMALL_BLIND);
+		increasePot(bigBlindPlayer  , game, BIG_BLIND);
 
-	private List<PlayerHand> turn(Game game, Deck deck, List<PlayerHand> playerHands) {
-		game.setBet(0);
-		return betting(game, playerHands, false);
+		playerHands = betting(game, playerHands, true);
+		
+		if(playerHands.size() == 1) {
+			Player [] winner = {playerHands.get(0).getPlayer()};
+			emptyPot(winner, game);
+		}
 	}
 	
-	private List<PlayerHand> river(Game game, Deck deck, List<PlayerHand> playerHands) {
-		game.setBet(0);
-		List<PlayerHand> endOfGame = betting(game, playerHands, false);
-		game.resetPot();
-		return endOfGame;
+	private List<PlayerHand> nextStreet(Game game, Deck deck, List<PlayerHand> playerHands) {
+		
+		game.nextStreet();
+		game.resetBet();
+		
+		int numCardsToDeal = (game.getCurrentStreet() == Street.FLOP)
+			? 3
+			: 1;
+		
+		for(int i = 0; i < numCardsToDeal; i++) {
+			game.addCommunityCard(deck.draw());
+		}
+		
+		for(Card card : game.getCommunityCards()) {
+			System.out.print(card.getShortName() + ", ");
+		}
+		System.out.println();
+				
+		List<PlayerHand> remainingPlayerHands = betting(game, playerHands, false);
+		
+		if(remainingPlayerHands.size() == 1) {
+			Player [] winner = {remainingPlayerHands.get(0).getPlayer()};
+			emptyPot(winner, game);
+		}
+		
+		return remainingPlayerHands;
+	}
+	
+	private Player [] determineWinners(Game game, List<PlayerHand> playerHandShowdowns) {
+		
+		Map<Player, FiveCardHand> finalHands = new HashMap<>();
+		
+		List<Card> communityCards = game.getCommunityCards();
+				
+		FiveCardHand winningHand = null;
+				
+		// Iterate over remaining players' hands to determine what's the winning hand
+		for(PlayerHand playerHand : playerHandShowdowns) {
+			List<Card> playerCards = new ArrayList<>(communityCards);
+			
+			Hand hand = playerHand.getHand();
+			playerCards.add(hand.getFirst());
+			playerCards.add(hand.getSecond());
+			
+			FiveCardHand fiveCardHand = HandEvaluator.evaluateSeven(playerCards.toArray(new Card[7]));
+			
+			if(winningHand == null || fiveCardHand.getValue() > winningHand.getValue()) {
+				winningHand = fiveCardHand;
+			}
+			
+			finalHands.put(playerHand.getPlayer(), fiveCardHand);			
+		}
+		
+		System.out.println("The winning hand is " + winningHand);
+		
+		List<Player> winningPlayers = new ArrayList<>();
+		
+		
+		// Iterate over remaining players.  Whoever has that hand is a winner.
+		// TODO: Be able to differentiate between higher flush or higher straight or higher pair, etc...
+		for(Player player : finalHands.keySet()) {
+						
+			FiveCardHand fiveCardHand = finalHands.get(player);
+			
+			if(winningHand == fiveCardHand) {
+				winningPlayers.add(player);
+			}
+		}
+		
+		return winningPlayers.toArray(new Player[0]);
 	}
 		
 	public static void main(String [] args) {
 		
 		List<Player> players = new ArrayList<Player>();
-		players.add(new Player("Adam", 1000, true));
+		players.add(new Player("Aegon", 1000, true));
 		players.add(new Player("Ben", 2000, true));
-		players.add(new Player("Cliff", 1275, true));
-		players.add(new Player("Dennis", 845, true));
-		players.add(new Player("Eric", 2495, true));
-		players.add(new Player("Florence", 1800, true));
+		players.add(new Player("Charles", 1275, true));
+		players.add(new Player("Dorian", 845, true));
+		players.add(new Player("Edard", 2495, true));
+		players.add(new Player("Fannie", 1800, true));
 
 		Table table = new Table();
 		table.open();
 		
-		int totalGames = 5;
+		int totalGames = 2;
 		
 		int gameNum = 1;
 		while(gameNum <= totalGames) {
 			
 			table.playGame(players, gameNum);
 			gameNum++;
+		}
+		
+		System.out.println("Final Stack Sizes");
+		System.out.println("-----------------");
+		for(Player player : players) {
+			System.out.print(player + "[" + player.getStack() + "], ");
 		}
 		
 		table.close();

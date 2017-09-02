@@ -84,6 +84,19 @@ public class Player {
 	public int getStack() {
 		return stack;
 	}
+	
+	public void deduct(int amount) {
+		
+		if(amount > stack)
+			stack = 0;
+		
+		stack -= amount;		
+	}
+	
+	public void add(int amount) {
+		
+		stack += amount;
+	}
 
 	@Override
 	public int hashCode() {

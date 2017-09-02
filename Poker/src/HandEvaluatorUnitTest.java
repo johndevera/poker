@@ -2,7 +2,7 @@
 
 import java.util.HashMap;
 
-import org.junit.Test;
+//import org.junit.Test;
 
 import poker.FiveCardHand;
 import poker.PocketHand;
@@ -93,7 +93,7 @@ public class HandEvaluatorUnitTest {
 		else return null;
 	}
 	 //Test 6 cards
-	  	@Test
+	//@Test
 	public void testRandomXGetStats() {
 		int num_hands = 10000;
 		int num_cards = 7;
@@ -137,7 +137,7 @@ public class HandEvaluatorUnitTest {
 	}
 	 
 	  	
-	@Test
+	//@Test
 	public void testPocketHand() {
 		
 		int num_hands = 22;
