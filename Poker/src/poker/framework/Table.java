@@ -360,6 +360,7 @@ public class Table {
 			FiveCardHand fiveCardHand = HandEvaluator.evaluateSeven(playerCards.toArray(new Card[7]));
 			
 			//how does winningHand get updated
+			//GitTest2
 			if(winningHand == null || fiveCardHand.getValue() > winningHand.getValue()) {
 				winningHand = fiveCardHand;
 			}
