@@ -367,7 +367,7 @@ public class Table {
 			finalHands.put(playerHand.getPlayer(), fiveCardHand);			
 		}
 		
-		System.out.println("The winning hand is " + winningHand);
+		System.out.println("The Winning hand is " + winningHand);
 		
 		List<Player> winningPlayers = new ArrayList<>();
 		
