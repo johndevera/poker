@@ -361,6 +361,7 @@ public class Table {
 			
 			//how does winningHand get updated
 			//GitTest2
+			//GitTest3
 			if(winningHand == null || fiveCardHand.getValue() > winningHand.getValue()) {
 				winningHand = fiveCardHand;
 			}
