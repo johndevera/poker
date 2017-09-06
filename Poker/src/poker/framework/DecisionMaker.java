@@ -14,7 +14,7 @@ public class DecisionMaker {
 			if(ActionValidator.canCall(player, game)){
 				call.setAmount(ActionValidator.getCallAmount(player, game));
 			}
-			return new DecisionCall();
+			return call;
 		}
 		else if (decisionType == DecisionType.CHECK) {
 			Decision check = new DecisionCheck();
@@ -33,6 +33,7 @@ public class DecisionMaker {
 		else if (decisionType == DecisionType.ALL_IN) {
 			Decision allIn = new DecisionAllIn();
 			allIn.setAmount(ActionValidator.getAllInAmount(player));
+			return allIn;
 		}
 		return null;
 	}
