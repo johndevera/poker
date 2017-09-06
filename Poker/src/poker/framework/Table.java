@@ -89,8 +89,13 @@ public class Table {
 		Player [] winners = determineWinners(game, playerHands);
 
 		// Pay the pot to the winners
+		//try {
 		emptyPot(winners, game);
-		
+		//}
+		//catch (IllegalArithmeticException e) {
+			//TODO Create method to distribute pot to entire table.
+			//emptyPot(playerHands, game);
+		//}
 		System.out.println(" ");
 
 		deck.draw();
@@ -275,13 +280,23 @@ public class Table {
 	 * This method is synchronized because we need to ensure emptying pot + adding amount to player(s) is an atomic transaction
 	 * Multiple players are passed in case of a split pot
 	 */
-	private synchronized void emptyPot(Player [] players, Game game) {
+	private synchronized void emptyPot(Player [] players, Game game) throws IllegalArgumentException{
 		
 		int pot = game.getPot();
 		
 		int numWinningPlayers = players.length;
-		
-		int splitPot = pot/numWinningPlayers;
+		int splitPot = 0;
+		if(numWinningPlayers != 0) {
+			splitPot = pot/numWinningPlayers;
+		}
+		else {
+			throw new IllegalArgumentException("No players won. Redistribute pot");
+		}
+		//catch (IllegalArgumentException e){
+			//NO ONE wins. Split the pot and distribute to everyone
+			//splitPot = pot/players.length;
+			
+		//}
 		
 		for(Player player : players) {
 			player.add(splitPot);

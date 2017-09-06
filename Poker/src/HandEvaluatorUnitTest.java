@@ -2,12 +2,16 @@
 
 import java.util.HashMap;
 
+import org.junit.Test;
+import org.junit.Assert;
+
 import poker.framework.Card;
 import poker.framework.Deck;
 //import poker.framework.Hand;
 import poker.framework.HandEvaluator;
 import poker.strategy.FiveCardHand;
 import poker.strategy.PocketHand;
+import static poker.framework.Card.*;
 
 public class HandEvaluatorUnitTest {
 
@@ -91,7 +95,7 @@ public class HandEvaluatorUnitTest {
 		else return null;
 	}
 	 //Test 6 cards
-	//@Test
+	@Test
 	public void testRandomXGetStats() {
 		int num_hands = 10000;
 		int num_cards = 7;
@@ -133,8 +137,12 @@ public class HandEvaluatorUnitTest {
 		//}
 		
 	}
-	 
-	  	
+	@Test 
+	public void testEvaluate() {
+		Card[] fiveCards = {ACE_OF_SPADES, ACE_OF_CLUBS, ACE_OF_DIAMONDS, KING_OF_SPADES, KING_OF_CLUBS};
+		FiveCardHand result1 = HandEvaluator.evaluate(fiveCards);
+		Assert.assertEquals(FiveCardHand.FLUSH, result1);
+	}
 	//@Test
 	public void testPocketHand() {
 		
