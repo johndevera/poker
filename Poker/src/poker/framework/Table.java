@@ -263,9 +263,12 @@ public class Table {
 	 * This method is synchronized because we need to ensure increasing pot + deducting amount from player is an atomic transaction
 	 */
 	private synchronized void increasePot(Player player, Game game, int amount) {
+		int oldStack = player.getStack();
+		player.setMyBet(amount);
 		player.deduct(amount);
 		game.increasePot(amount);
-		System.out.println(player + " -" + amount + " ... pot = " + game.getPot());
+		//System.out.println(player + " -" + amount + " ... pot = " + game.getPot());
+		System.out.println(player + ":" + oldStack + " - " + amount + " = " + player.getStack()+ " ... pot = " + game.getPot());
 	}
 	
 	/**
