@@ -1,5 +1,5 @@
 package poker.framework;
-
+/*
 public interface Decision{
 	//public Decision(DecisionType decisionType, int amount);
 	
@@ -11,15 +11,15 @@ public interface Decision{
 	
 	public void setAmount(int amount);
 }
+*/
 
-/*
 public class Decision {
 
 	private DecisionType decisionType;
 	private int amount;
 	
 	//public Decision(Player player, Game game, DecisionType decisionType, int amount) {
-	public Decision(DecisionType decisionType, int amount) {
+	private Decision(DecisionType decisionType, int amount) {
 		super();
 		this.decisionType = decisionType;
 		this.amount = amount;
@@ -42,5 +42,38 @@ public class Decision {
 		//return amount;
 		this.amount = amount;
 	}
+	
+	public static Decision fold() {
+		return new Decision(DecisionType.FOLD, ActionValidator.getFoldAmount());
+	}
+	
+	public static Decision call(Player player, Game game) {
+		if(ActionValidator.canCall(player, game)){
+			return new Decision(DecisionType.CALL, ActionValidator.getCallAmount(player, game));
+		}
+		return null;
+	}
+	
+	public static Decision check(Player player, Game game) {
+		if(ActionValidator.canCheck(player, game)) {
+			//return new Decision(DecisionType.CHECK, 0);
+			return new Decision(DecisionType.CHECK, ActionValidator.getCheckAmount());
+		}
+		return null;
+	}
+	
+	public static Decision raise(double mult, int amount, Player player, Game game) {
+		if(ActionValidator.canRaise(mult, amount, player, game)) {
+			return new Decision(DecisionType.RAISE, (int)(mult*amount));
+		}
+		return null;
+	}
+	
+	public static Decision allIn(Player player) {
+		//return new Decision(DecisionType.ALL_IN, player.getStack());
+		return new Decision(DecisionType.ALL_IN, ActionValidator.getAllInAmount(player));
+	}
+	
+	
+	
 }
-*/
