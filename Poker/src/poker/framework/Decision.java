@@ -51,7 +51,8 @@ public class Decision {
 		if(ActionValidator.canCall(player, game)){
 			return new Decision(DecisionType.CALL, ActionValidator.getCallAmount(player, game));
 		}
-		return null;
+		//return null;
+		return new Decision(DecisionType.FOLD, ActionValidator.getFoldAmount());
 	}
 	
 	public static Decision check(Player player, Game game) {
@@ -59,14 +60,24 @@ public class Decision {
 			//return new Decision(DecisionType.CHECK, 0);
 			return new Decision(DecisionType.CHECK, ActionValidator.getCheckAmount());
 		}
-		return null;
+		else if (ActionValidator.canCall(player, game)) {
+			return new Decision(DecisionType.CALL, ActionValidator.getCheckAmount());
+		}
+		return new Decision(DecisionType.FOLD, ActionValidator.getFoldAmount());
 	}
 	
 	public static Decision raise(double mult, int amount, Player player, Game game) {
 		if(ActionValidator.canRaise(mult, amount, player, game)) {
 			return new Decision(DecisionType.RAISE, (int)(mult*amount));
 		}
-		return null;
+		else if(ActionValidator.canCheck(player, game)) {
+			//return new Decision(DecisionType.CHECK, 0);
+			return new Decision(DecisionType.CHECK, ActionValidator.getCheckAmount());
+		}
+		else if (ActionValidator.canCall(player, game)) {
+			return new Decision(DecisionType.CALL, ActionValidator.getCheckAmount());
+		}
+		return new Decision(DecisionType.FOLD, ActionValidator.getFoldAmount());
 	}
 	
 	public static Decision allIn(Player player) {
