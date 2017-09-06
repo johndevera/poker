@@ -188,8 +188,7 @@ public class Table {
 				continue; // This means go back to top of the loop...
 			}
 			
-			ActionValidator action = new ActionValidator(game, currentPlayer);
-			int x = action.getMinRaiseAmount();
+			ActionValidator action = new ActionValidator();
 			
 			Decision decision = 
 					currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null, action);	

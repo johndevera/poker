@@ -5,72 +5,53 @@ import poker.framework.DecisionType;
 
 public class ActionValidator{
 	
-	private int currentBet;
-	private int currentPot;
-	private int myBet;
-	private int myStack;
-	
-	private int foldAmount;
-	private int checkAmount;
-	private int callAmount;
-	private int minRaiseAmount;
-	private int maxRaiseAmount;
-	private int allInAmount;
-	
 	private Decision decision = new Decision(null, 0);
-
-	public ActionValidator(Game game, Player player) {
-		//decision.getType();
-		this.currentBet = game.getCurrentBet();
-		this.currentPot = game.getPot();
-		this.myBet = player.getMyBet();
-		this.myStack = player.getStack();
-		
-		this.foldAmount = 0;
-		this.checkAmount = 0;
-		this.callAmount = currentBet - myBet;
-		this.minRaiseAmount = 2*currentBet;
-		this.maxRaiseAmount = myStack;
-		this.allInAmount = myStack;
+	
+	//Decision.newD
+	
+	public int getFoldAmount() {
+		return 0;
+	}
+	public int getCheckAmount() {
+		return 0;
+	}
+	public int getCallAmount(Player player, Game game) {
+		return game.getCurrentBet() - player.getMyBet();
+	}
+	public int getMinRaiseAmount(Game game) {
+		return 2*game.getCurrentBet();
+	}
+	public int getMaxRaiseAmount(Player player) {
+		return player.getStack();
+	}
+	public int getAllInAmount(Player player) {
+		return player.getStack();
 	}
 	
-	private boolean canRaise(int mult, int amount) {
+	
+	private boolean canRaise(int mult, int amount, Player player, Game game) {
 		int value = mult*amount;
-		if(value >= minRaiseAmount && value < maxRaiseAmount) {
-			return true;
-		}
-		else{
-			return false;
-		}
+		return (value >= getMinRaiseAmount(game) && value < getMaxRaiseAmount(player));
 	}
 	
-	private boolean canCall() {
-		if(callAmount < myStack && callAmount > 0) { //makes sure callAmount is not negative
-			return true;
-		}
-		else {
-			return false;
-		}
+	private boolean canCall(Player player, Game game) {
+		return (getCallAmount(player, game) < player.getStack() && getCallAmount(player, game) > 0);
 	}
 		
-	private boolean canCheck() {
-		if(currentBet == myBet){
-			return true;
-		}
-		else {
-			return false;
-		}
+	private boolean canCheck(Player player, Game game) {
+		return game.getCurrentBet() == player.getMyBet();
 	}
+	
 	public Decision fold() {
 		this.decision.setType(DecisionType.FOLD);
-		this.decision.setAmount(foldAmount);
+		this.decision.setAmount(getFoldAmount());
 		return this.decision;
 	}
 	
-	public Decision check() {
-		if(canCheck() == true) {
+	public Decision check(Player player, Game game) {
+		if(canCheck(player, game)) {
 			this.decision.setType(DecisionType.CHECK);
-			this.decision.setAmount(this.checkAmount);
+			this.decision.setAmount(this.getCheckAmount());
 			return this.decision;
 		}
 		else {
@@ -78,20 +59,19 @@ public class ActionValidator{
 		}
 	}
 	
-	public Decision call() {
-		if(canCall() == true){
+	public Decision call(Player player, Game game) {
+		if(canCall(player, game)){
 			this.decision.setType(DecisionType.CALL);
-			this.decision.setAmount(callAmount);
+			this.decision.setAmount(getCallAmount(player, game));
 			return this.decision;
 		}
 		else {
 			return null;
 		}
-		
 	}
 	
-	public Decision raise(int mult, int amount) {
-		if(canRaise(mult, amount) == true) {
+	public Decision raise(int mult, int amount, Player player, Game game) {
+		if(canRaise(mult, amount, player, game) == true) {
 			this.decision.setType(DecisionType.RAISE);
 			this.decision.setAmount(mult*amount);
 			return this.decision;
@@ -99,80 +79,43 @@ public class ActionValidator{
 		else {
 			return this.decision;
 		}
-
 	}
-	
-	public Decision allIn() {
+	/*
+	public Decision allIn(Player player) {
 		this.decision.setType(DecisionType.ALL_IN);
-		this.decision.setAmount(this.allInAmount);
+		this.decision.setAmount(this.getAllInAmount(player));
 		return this.decision;
 	}
 	
-	
-	
-	
-	public int getFoldAmount() {
-		return this.foldAmount;
-	}
-	public int getCheckAmount() {
-		return this.checkAmount;
-	}
-	public int getCallAmount() {
-		return this.callAmount;
-	}
-	public int getMinRaiseAmount() {
-		return this.minRaiseAmount;
-	}
-	public int getMaxRaiseAmount() {
-		return this.maxRaiseAmount;
-	}
-	public int getAllInAmount() {
-		return this.allInAmount;
-	}
-	
-	
-	/*
-	private static EnumMap<DecisionType, Integer> actionsAvailable = new EnumMap<DecisionType, Integer>(DecisionType.class);
-	
-	public static EnumMap<DecisionType, Integer> getPossibleActions(Game game, Player player){
-		
-		int currentBet = game.getCurrentBet();
-		int currentPot = game.getPot();
-		int myBet = player.getMyBet();
-		int myStack = player.getStack();
+	public class Decision {
 
-		actionsAvailable.put(DecisionType.FOLD, 0);	
-		actionsAvailable.put(DecisionType.CALL, 0);
-		actionsAvailable.put(DecisionType.CHECK, 0);
-		actionsAvailable.put(DecisionType.RAISE, 0);
-		actionsAvailable.put(DecisionType.ALL_IN, myStack);
-
+		private DecisionType decisionType;
+		private int amount;
 		
-		//int myBet = 0;
-		int callAmount = currentBet - myBet;
-		if(myBet <= currentBet && callAmount < myStack){
-			//actionsAvailable.put(DecisionType.CALL, callAmount);
-			}
-		if(myStack >= 2*currentBet) {
-			//actionsAvailable.put(DecisionType.RAISE, 2*currentBet);
+		public Decision(DecisionType decisionType, int amount) {
+			super();
+			this.decisionType = decisionType;
+			this.amount = amount;
 		}
-		return actionsAvailable;
-	}
-	
-	public int getCallAmount() {
-		return actionsAvailable.get(DecisionType.CALL);
-	}
-	
-	public int getCheckAmount() {
-		return actionsAvailable.get(DecisionType.CHECK);
-	}
-	
-	public int getMinRaiseAmount() {
-		return actionsAvailable.get(DecisionType.RAISE);
-	}
-	
-	public int getAllInAmount() {
-		return actionsAvailable.get(DecisionType.ALL_IN);
-	}
+		
+		public DecisionType getType() {
+			return this.decisionType;
+		}
+		
+		public int getAmount() {
+			return this.amount;
+		}
+		
+		public void setType(DecisionType decision) {
+			//return decision;
+			this.decisionType = decision;
+		}
+		
+		public void setAmount(int amount) {
+			//return amount;
+			this.amount = amount;
+		}
 	*/
 }
+
+

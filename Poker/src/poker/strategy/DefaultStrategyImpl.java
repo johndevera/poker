@@ -32,14 +32,6 @@ public class DefaultStrategyImpl implements IStrategy {
 		int bet = player.getMyBet();
 		int stack = player.getStack();
 		
-		//game.playerBets(Table.positions)
-		//game.playerBets.put(, value)
-		//int myBet = game.playerBets[player.]
-		
-		
-		//EnumMap<DecisionType, Integer> options = ActionValidator.getPossibleActions(game, player);
-		//ActionValidator options = new ActionValidator(game, player);
-		//options.validate(game, player);
 		
 		Street street = game.getCurrentStreet();
 		
@@ -107,28 +99,12 @@ public class DefaultStrategyImpl implements IStrategy {
 	@Override
 	public Decision preFlopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator action) {
 
-		//options is used to get the value amounts of various action options
-		
-		int currentBet = game.getCurrentBet();
-		int currentPot = game.getPot();
-		int myBet = player.getMyBet();
-		int myStack = player.getStack();
-		
-		//int fold = options.get(DecisionType.FOLD);
-		//int call = options.get(DecisionType.CALL);
-		//int check = options.get(DecisionType.CHECK);
-		//int raise = options.get(DecisionType.RAISE);
-		//int allin = options.get(DecisionType.ALL_IN);
-		
-		
-		//int callAmount = options.get(DecisionType.CALL);
-		//int minRaiseAmount = option.get(DecisionType.RAISE);
+
 		
 		if(pocketHand == PocketHand.JUNK) {
 			if(game.getCurrentBet() == 0) {
-				return action.check();
+				return action.check(player, game);
 				//return new Decision(DecisionType.CHECK, options.get(DecisionType.CHECK));
-				//options.get(DecisionType.FOLD);
 			}
 			else {
 				//return new Decision(DecisionType.FOLD, action.get(DecisionType.FOLD));
@@ -139,17 +115,17 @@ public class DefaultStrategyImpl implements IStrategy {
 		
 		else if (pocketHand.getValue() <= 8) {
 			//return new Decision(DecisionType.CALL, action.get(DecisionType.CALL));
-			return action.call();
+			return action.call(player, game);
 		}
 		
 		else if (pocketHand == PocketHand.MIDDLE_PAIR || pocketHand == PocketHand.PREMIUM_HAND) {
 			//return new Decision(DecisionType.RAISE, currentBet * 3);
-			return action.raise(3, currentBet);
+			return action.raise(3, game.getCurrentBet(), player, game);
 		}
 		
 		else { // SUPER PREMIUM HAND
 			//return new Decision(DecisionType.RAISE, currentBet * 4);
-			return action.raise(4, currentBet);
+			return action.raise(4, game.getCurrentBet(), player, game);
 		}
 	}
 
@@ -171,6 +147,8 @@ public class DefaultStrategyImpl implements IStrategy {
 	/**
 	 * Creating this method to test simple, dummy betting behavior
 	 */
+	
+	
 	private Decision doSimpleDecisionMaking(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, ActionValidator action) {
 		
 		List<Card> playerCards = game.getCommunityCards();
@@ -253,4 +231,5 @@ public class DefaultStrategyImpl implements IStrategy {
 		}
 		return numRaises;
 	}
+	
 }

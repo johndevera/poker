@@ -5,6 +5,7 @@ public class Decision {
 	private DecisionType decisionType;
 	private int amount;
 	
+	//public Decision(Player player, Game game, DecisionType decisionType, int amount) {
 	public Decision(DecisionType decisionType, int amount) {
 		super();
 		this.decisionType = decisionType;
