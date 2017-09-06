@@ -7,8 +7,6 @@ public class ActionValidator{
 	
 	private Decision decision = new Decision(null, 0);
 	
-	//Decision.newD
-	
 	public int getFoldAmount() {
 		return 0;
 	}
@@ -80,13 +78,13 @@ public class ActionValidator{
 			return this.decision;
 		}
 	}
-	/*
+	
 	public Decision allIn(Player player) {
 		this.decision.setType(DecisionType.ALL_IN);
 		this.decision.setAmount(this.getAllInAmount(player));
 		return this.decision;
 	}
-	
+	/*
 	public class Decision {
 
 		private DecisionType decisionType;
