@@ -95,19 +95,19 @@ public class DefaultStrategyImpl implements IStrategy {
 		
 		if(pocketHand == PocketHand.JUNK) {
 			if(game.getCurrentBet() == 0) {
-				return action.check(player, game);
+				return action.check(0, 0, player, game);
 				//return new Decision(DecisionType.CHECK, options.get(DecisionType.CHECK));
 			}
 			else {
 				//return new Decision(DecisionType.FOLD, action.get(DecisionType.FOLD));
-				return action.fold();
+				return action.fold(0, 0, player, game);
 			}
 			
 		}
 		
 		else if (pocketHand.getValue() <= 8) {
 			//return new Decision(DecisionType.CALL, action.get(DecisionType.CALL));
-			return action.call(player, game);
+			return action.call(0, 0, player, game);
 		}
 		
 		else if (pocketHand == PocketHand.MIDDLE_PAIR || pocketHand == PocketHand.PREMIUM_HAND) {
@@ -168,33 +168,41 @@ public class DefaultStrategyImpl implements IStrategy {
 		if(fiveCardHand.getValue() >= FiveCardHand.TWO_PAIR.getValue()) {
 			
 			if(numRaises <= 2) {
-				double twoThirdsPot = (double) (0.65 * pot);
-				decision = new Decision(DecisionType.RAISE, (int) twoThirdsPot);
+				//double twoThirdsPot = (double) (0.65 * pot);
+				//decision = new Decision(DecisionType.RAISE, (int) twoThirdsPot);
+				double twoThirds = 0.65;
+				decision = action.raise(twoThirds, pot, player, game);
 			}
 			else {
-				decision = new Decision(DecisionType.CALL, currentBet);
+				//decision = new Decision(DecisionType.CALL, currentBet);
+				decision = action.call(0, 0, player, game);
 			}
 		}
 		else if (fiveCardHand.getValue() == FiveCardHand.ONE_PAIR.getValue()) {
 			
 			if(numRaises <= 2) {
-				double halfPot = (double) (0.50 * pot);
-				decision = new Decision(DecisionType.RAISE, (int) halfPot);	
+				//double halfPot = (double) (0.50 * pot);
+				//decision = new Decision(DecisionType.RAISE, (int) halfPot);	
+				double half = 0.5;
+				decision = action.raise(half, pot, player, game);
 			}
 			else {
-				decision = new Decision(DecisionType.CALL, currentBet);
+				//decision = new Decision(DecisionType.CALL, currentBet);
+				decision = action.call(0, 0, player, game);
 			}
+			
 		}
 		else if (fiveCardHand.getValue() < FiveCardHand.ONE_PAIR.getValue()) {
 			
 			decision = (currentBet == 0)
-				? new Decision(DecisionType.CHECK, 0)
-				: new Decision(DecisionType.FOLD, 0);			
+				? action.check(0, 0, player, game)//new Decision(DecisionType.CHECK, 0)
+				: action.fold(0, 0, player, game); //new Decision(DecisionType.FOLD, 0);			
 		}
 		
 		// Final validation - make sure not to exceed player's stack size
 		if(decision.getAmount() >= player.getStack()) {
-			decision = new Decision(DecisionType.ALL_IN, player.getStack());
+			//decision = new Decision(DecisionType.ALL_IN, player.getStack());
+			decision = action.allIn(0, 0, player, game);
 		}
 		return decision;
 	}

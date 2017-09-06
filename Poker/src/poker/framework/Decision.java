@@ -1,5 +1,18 @@
 package poker.framework;
 
+public interface Decision{
+	//public Decision(DecisionType decisionType, int amount);
+	
+	public DecisionType getType();
+	
+	public int getAmount();
+	
+	public void setType(DecisionType decision);
+	
+	public void setAmount(int amount);
+}
+
+/*
 public class Decision {
 
 	private DecisionType decisionType;
@@ -30,3 +43,4 @@ public class Decision {
 		this.amount = amount;
 	}
 }
+*/

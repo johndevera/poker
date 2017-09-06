@@ -1,11 +1,8 @@
 package poker.strategy;
 
-import java.util.EnumMap;
-
 import poker.PocketHand;
 import poker.framework.ActionValidator;
 import poker.framework.Decision;
-import poker.framework.DecisionType;
 import poker.framework.Game;
 import poker.framework.Hand;
 import poker.framework.Player;
