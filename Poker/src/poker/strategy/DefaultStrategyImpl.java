@@ -11,11 +11,9 @@ import poker.framework.Hand;
 import poker.framework.HandEvaluator;
 import poker.framework.Player;
 import poker.framework.Street;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import poker.framework.Table;
 
 public class DefaultStrategyImpl implements IStrategy {
 
@@ -26,13 +24,7 @@ public class DefaultStrategyImpl implements IStrategy {
 		pocketCards[0] = hand.getFirst();
 		pocketCards[1] = hand.getSecond();
 		PocketHand pocketHand = HandEvaluator.evaluatePocket(pocketCards);
-		
-		int currentBet = game.getCurrentBet();
-		int currentPot = game.getPot();
-		int bet = player.getMyBet();
-		int stack = player.getStack();
-		
-		
+				
 		Street street = game.getCurrentStreet();
 		
 		if (street == Street.PRE_FLOP) {

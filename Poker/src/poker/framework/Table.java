@@ -2,10 +2,7 @@ package poker.framework;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Array;
 import java.util.*;
-
-import poker.strategy.DefaultStrategyImpl;
 import poker.FiveCardHand;
 import poker.framework.Game;
 
@@ -170,12 +167,11 @@ public class Table {
 			pendingQ.add(pendingQ.remove()); //take the BB and put them to the back
 			
 		}
-		//players position is set by currentAction
 
 		if(firstToAct == playerHands.size()) firstToAct = 0;
 		else if (firstToAct == playerHands.size() + 1) firstToAct = 1;
 						
-		boolean allHandsPlayed = false;
+		//boolean allHandsPlayed = false;
 		
 		while(pendingQ.size() > 0) {
 			PlayerHand playerHand 	= playerHands.get(currentAction);
@@ -250,7 +246,7 @@ public class Table {
 			}
 			
 			if(currentAction == firstToAct) {
-				allHandsPlayed = true;
+				//allHandsPlayed = true;
 			}
 			
 			try {

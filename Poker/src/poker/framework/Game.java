@@ -23,7 +23,7 @@ public class Game {
 	
 	private int pot;
 	
-	private int bigBlind;
+	//private int bigBlind;
 	
 	private int currentBet;
 	
@@ -44,7 +44,7 @@ public class Game {
 		riverDecisions = new HashMap<>();
 		this.positions = positions;
 		currentStreet = PRE_FLOP;
-		this.bigBlind = bigBlind;
+		//this.bigBlind = bigBlind;
 		this.currentBet = bigBlind;
 		this.communityCards = new ArrayList<>(5);
 		this.allInPlayers = new HashSet<>();
