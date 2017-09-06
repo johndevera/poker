@@ -3,8 +3,9 @@ package poker.framework;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;
-import poker.FiveCardHand;
+
 import poker.framework.Game;
+import poker.strategy.FiveCardHand;
 
 public class Table {
 	
@@ -358,9 +359,6 @@ public class Table {
 			
 			FiveCardHand fiveCardHand = HandEvaluator.evaluateSeven(playerCards.toArray(new Card[7]));
 			
-			//how does winningHand get updated
-			//GitTest2
-			//GitTest3
 			if(winningHand == null || fiveCardHand.getValue() > winningHand.getValue()) {
 				winningHand = fiveCardHand;
 			}

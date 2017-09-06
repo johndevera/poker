@@ -2,14 +2,12 @@
 
 import java.util.HashMap;
 
-//import org.junit.Test;
-
-import poker.FiveCardHand;
-import poker.PocketHand;
 import poker.framework.Card;
 import poker.framework.Deck;
 //import poker.framework.Hand;
 import poker.framework.HandEvaluator;
+import poker.strategy.FiveCardHand;
+import poker.strategy.PocketHand;
 
 public class HandEvaluatorUnitTest {
 

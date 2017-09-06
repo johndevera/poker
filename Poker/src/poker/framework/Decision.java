@@ -43,21 +43,20 @@ public class Decision {
 		this.amount = amount;
 	}
 	
-	public static Decision fold() {
+	public static Decision fold(){
 		return new Decision(DecisionType.FOLD, ActionValidator.getFoldAmount());
 	}
 	
-	public static Decision call(Player player, Game game) {
+	public static Decision call(Player player, Game game) {//throws DecisionException{
 		if(ActionValidator.canCall(player, game)){
 			return new Decision(DecisionType.CALL, ActionValidator.getCallAmount(player, game));
 		}
-		//return null;
+		//throw new DecisionException(DecisionType.CALL, 200);
 		return new Decision(DecisionType.FOLD, ActionValidator.getFoldAmount());
 	}
 	
 	public static Decision check(Player player, Game game) {
 		if(ActionValidator.canCheck(player, game)) {
-			//return new Decision(DecisionType.CHECK, 0);
 			return new Decision(DecisionType.CHECK, ActionValidator.getCheckAmount());
 		}
 		else if (ActionValidator.canCall(player, game)) {
@@ -71,7 +70,6 @@ public class Decision {
 			return new Decision(DecisionType.RAISE, (int)(mult*amount));
 		}
 		else if(ActionValidator.canCheck(player, game)) {
-			//return new Decision(DecisionType.CHECK, 0);
 			return new Decision(DecisionType.CHECK, ActionValidator.getCheckAmount());
 		}
 		else if (ActionValidator.canCall(player, game)) {
@@ -81,7 +79,7 @@ public class Decision {
 	}
 	
 	public static Decision allIn(Player player) {
-		//return new Decision(DecisionType.ALL_IN, player.getStack());
+
 		return new Decision(DecisionType.ALL_IN, ActionValidator.getAllInAmount(player));
 	}
 	

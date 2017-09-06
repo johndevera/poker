@@ -1,6 +1,5 @@
 package poker.strategy;
 
-import poker.PocketHand;
 import poker.framework.ActionValidator;
 import poker.framework.Card;
 import poker.framework.Decision;

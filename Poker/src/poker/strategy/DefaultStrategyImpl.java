@@ -1,7 +1,5 @@
 package poker.strategy;
 
-import poker.FiveCardHand;
-import poker.PocketHand;
 import poker.framework.ActionValidator;
 import poker.framework.Card;
 import poker.framework.Decision;
@@ -96,32 +94,24 @@ public class DefaultStrategyImpl implements IStrategy {
 		if(pocketHand == PocketHand.JUNK) {
 			if(game.getCurrentBet() == 0) {
 				return Decision.check(player, game);
-				//return action.check(0, 0, player, game);
-				//return new Decision(DecisionType.CHECK, options.get(DecisionType.CHECK));
 			}
 			else {
-				//return new Decision(DecisionType.FOLD, action.get(DecisionType.FOLD));
-				//return action.fold(0, 0, player, game);
 				return Decision.fold();
 			}
 			
 		}
 		
 		else if (pocketHand.getValue() <= 8) {
-			//return new Decision(DecisionType.CALL, action.get(DecisionType.CALL));
-			//return action.call(0, 0, player, game);
 			return Decision.call(player, game);
 		}
 		
 		else if (pocketHand == PocketHand.MIDDLE_PAIR || pocketHand == PocketHand.PREMIUM_HAND) {
-			//return new Decision(DecisionType.RAISE, currentBet * 3);
-			//return action.raise(3, game.getCurrentBet(), player, game);
+
 			return Decision.raise(3, game.getCurrentBet(), player, game);
 		}
 		
 		else { // SUPER PREMIUM HAND
-			//return new Decision(DecisionType.RAISE, currentBet * 4);
-			//return action.raise(4, game.getCurrentBet(), player, game);
+
 			return Decision.raise(4, game.getCurrentBet(), player, game);
 		}
 	}
@@ -173,30 +163,20 @@ public class DefaultStrategyImpl implements IStrategy {
 		if(fiveCardHand.getValue() >= FiveCardHand.TWO_PAIR.getValue()) {
 			
 			if(numRaises <= 2) {
-				//double twoThirdsPot = (double) (0.65 * pot);
-				//decision = new Decision(DecisionType.RAISE, (int) twoThirdsPot);
 				double twoThirds = 0.65;
-				//decision = action.raise(twoThirds, pot, player, game);
 				decision = Decision.raise(twoThirds, pot, player, game);
 			}
 			else {
-				//decision = new Decision(DecisionType.CALL, currentBet);
-				//decision = action.call(0, 0, player, game);
 				decision = Decision.call(player, game);
 			}
 		}
 		else if (fiveCardHand.getValue() == FiveCardHand.ONE_PAIR.getValue()) {
 			
 			if(numRaises <= 2) {
-				//double halfPot = (double) (0.50 * pot);
-				//decision = new Decision(DecisionType.RAISE, (int) halfPot);	
 				double half = 0.5;
-				//decision = action.raise(half, pot, player, game);
 				decision = Decision.raise(half, pot, player, game);
 			}
 			else {
-				//decision = new Decision(DecisionType.CALL, currentBet);
-				//decision = action.call(0, 0, player, game);
 				decision = Decision.call(player, game);
 			}
 			
@@ -204,16 +184,12 @@ public class DefaultStrategyImpl implements IStrategy {
 		else if (fiveCardHand.getValue() < FiveCardHand.ONE_PAIR.getValue()) {
 			
 			decision = (currentBet == 0)
-				//? action.check(0, 0, player, game)//new Decision(DecisionType.CHECK, 0)
-				//: action.fold(0, 0, player, game); //new Decision(DecisionType.FOLD, 0);
 				? Decision.check(player, game)//new Decision(DecisionType.CHECK, 0)
 				: Decision.fold(); //new Decision(DecisionType.FOLD, 0);
 		}
 		
 		// Final validation - make sure not to exceed player's stack size
 		if(game.getPot() >= player.getStack()) {
-			//decision = new Decision(DecisionType.ALL_IN, player.getStack());
-			//decision = action.allIn(0, 0, player, game);
 			decision = Decision.allIn(player);
 		}
 		return decision;

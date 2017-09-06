@@ -1,4 +1,4 @@
-package poker;
+package poker.strategy;
 
 public enum FiveCardHand {
 
