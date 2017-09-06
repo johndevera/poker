@@ -15,35 +15,31 @@ import java.util.EnumMap;
 public class TightPassiveStrategy implements IStrategy {
 
 	@Override
-	public Decision decide(Player player, Hand hand, Game game, IKnowledge knowledge) {
+	public Decision decide(Player player, Hand hand, Game game, IKnowledge knowledge, ActionValidator action) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Decision preFlopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand,
-			int currentBet, EnumMap<DecisionType, Integer> options) {
+	public Decision preFlopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator options) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Decision flopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand,
-			int currentBet, EnumMap<DecisionType, Integer> options) {
+	public Decision flopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator options) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Decision turnDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand,
-			int currentBet, EnumMap<DecisionType, Integer> options) {
+	public Decision turnDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator options) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Decision riverDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand,
-			int currentBet, EnumMap<DecisionType, Integer> options) {
+	public Decision riverDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator options) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -20,7 +20,7 @@ import poker.framework.Table;
 public class DefaultStrategyImpl implements IStrategy {
 
 	@Override
-	public Decision decide(Player player, Hand hand, Game game, IKnowledge knowledge) {
+	public Decision decide(Player player, Hand hand, Game game, IKnowledge knowledge, ActionValidator action) {
 		
 		Card [] pocketCards = new Card[2];
 		pocketCards[0] = hand.getFirst();
@@ -30,25 +30,30 @@ public class DefaultStrategyImpl implements IStrategy {
 		int currentBet = game.getCurrentBet();
 		int currentPot = game.getPot();
 		int bet = player.getMyBet();
+		int stack = player.getStack();
 		
 		//game.playerBets(Table.positions)
 		//game.playerBets.put(, value)
 		//int myBet = game.playerBets[player.]
-		EnumMap<DecisionType, Integer> options = ActionValidator.getPossibleActions(player.getStack(), currentBet, bet, currentPot);
+		
+		
+		//EnumMap<DecisionType, Integer> options = ActionValidator.getPossibleActions(game, player);
+		//ActionValidator options = new ActionValidator(game, player);
+		//options.validate(game, player);
 		
 		Street street = game.getCurrentStreet();
 		
 		if (street == Street.PRE_FLOP) {
-			return preFlopDecision(player, hand, game, knowledge, pocketHand, currentBet, options);
+			return preFlopDecision(player, hand, game, knowledge, pocketHand, action);
 		}
 		else if (street == Street.FLOP) {
-			return flopDecision(player, hand, game, knowledge, pocketHand, currentBet, options);
+			return flopDecision(player, hand, game, knowledge, pocketHand, action);
 		}
 		else if (street == Street.TURN) {
-			return turnDecision(player, hand, game, knowledge, pocketHand, currentBet, options);
+			return turnDecision(player, hand, game, knowledge, pocketHand, action);
 		}
 		else { //Street = River
-			return riverDecision(player, hand, game, knowledge, pocketHand, currentBet, options);
+			return riverDecision(player, hand, game, knowledge, pocketHand, action);
 		}
 		// positions[0] = small blind player
 		// positions[1] = big blind player
@@ -100,53 +105,73 @@ public class DefaultStrategyImpl implements IStrategy {
 	}
 	
 	@Override
-	public Decision preFlopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
+	public Decision preFlopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator action) {
 
 		//options is used to get the value amounts of various action options
 		
+		int currentBet = game.getCurrentBet();
+		int currentPot = game.getPot();
+		int myBet = player.getMyBet();
+		int myStack = player.getStack();
+		
+		//int fold = options.get(DecisionType.FOLD);
+		//int call = options.get(DecisionType.CALL);
+		//int check = options.get(DecisionType.CHECK);
+		//int raise = options.get(DecisionType.RAISE);
+		//int allin = options.get(DecisionType.ALL_IN);
+		
+		
+		//int callAmount = options.get(DecisionType.CALL);
+		//int minRaiseAmount = option.get(DecisionType.RAISE);
+		
 		if(pocketHand == PocketHand.JUNK) {
-			if(currentBet == 0) {
-				return new Decision(DecisionType.CHECK, options.get(DecisionType.CHECK));
+			if(game.getCurrentBet() == 0) {
+				return action.check();
+				//return new Decision(DecisionType.CHECK, options.get(DecisionType.CHECK));
 				//options.get(DecisionType.FOLD);
 			}
 			else {
-				return new Decision(DecisionType.FOLD, options.get(DecisionType.FOLD));
+				//return new Decision(DecisionType.FOLD, action.get(DecisionType.FOLD));
+				return action.fold();
 			}
 			
 		}
 		
 		else if (pocketHand.getValue() <= 8) {
-			return new Decision(DecisionType.CALL, options.get(DecisionType.CALL));
+			//return new Decision(DecisionType.CALL, action.get(DecisionType.CALL));
+			return action.call();
 		}
 		
 		else if (pocketHand == PocketHand.MIDDLE_PAIR || pocketHand == PocketHand.PREMIUM_HAND) {
-			return new Decision(DecisionType.RAISE, currentBet * 3);
+			//return new Decision(DecisionType.RAISE, currentBet * 3);
+			return action.raise(3, currentBet);
 		}
 		
 		else { // SUPER PREMIUM HAND
-			return new Decision(DecisionType.RAISE, currentBet * 4);
+			//return new Decision(DecisionType.RAISE, currentBet * 4);
+			return action.raise(4, currentBet);
 		}
 	}
 
 	@Override
-	public Decision flopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
-		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, currentBet, options);		
+	public Decision flopDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator action) {
+		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, game.getCurrentBet(), action);		
 	}
 
 	@Override
-	public Decision turnDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
-		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, currentBet, options);
+	public Decision turnDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator action) {
+		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, game.getCurrentBet(), action);
 	}
 
 	@Override
-	public Decision riverDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
-		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, currentBet, options);
+	public Decision riverDecision(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, ActionValidator action) {
+		return doSimpleDecisionMaking(player, hand, game, knowledge, pocketHand, game.getCurrentBet(), action);
 	}
 	
 	/**
 	 * Creating this method to test simple, dummy betting behavior
 	 */
-	private Decision doSimpleDecisionMaking(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, EnumMap<DecisionType, Integer> options) {
+	private Decision doSimpleDecisionMaking(Player player, Hand hand, Game game, IKnowledge knowledge, PocketHand pocketHand, int currentBet, ActionValidator action) {
 		
 		List<Card> playerCards = game.getCommunityCards();
 		playerCards.add(hand.getFirst());

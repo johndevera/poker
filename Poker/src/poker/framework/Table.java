@@ -159,6 +159,7 @@ public class Table {
 		Queue<PlayerHand> pendingQ = new LinkedList<>(playerHands);
 		Queue<PlayerHand> finishedQ = new LinkedList<>();
 		
+		
 		int firstToAct = 0;
 		int currentAction = 0;
 		
@@ -187,8 +188,11 @@ public class Table {
 				continue; // This means go back to top of the loop...
 			}
 			
+			ActionValidator action = new ActionValidator(game, currentPlayer);
+			int x = action.getMinRaiseAmount();
+			
 			Decision decision = 
-					currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null);	
+					currentPlayer.getStrategy().decide(currentPlayer, currentHand, game, null, action);	
 			
 			if(game.getCurrentStreet() == Street.PRE_FLOP) {
 				game.addPreFlopDecision(currentPlayer, decision);	
@@ -204,8 +208,8 @@ public class Table {
 			}
 									
 			int bet = decision.getAmount();
-			
 			DecisionType choice = decision.getType();
+			
 			if (choice == DecisionType.RAISE) { //raise NEEDS TO BE WORKED ON. LOGIC STEP THROUGH
 				game.setBet(bet);
 				System.out.println("--" + currentPlayer + " raises|bets--");
@@ -392,10 +396,10 @@ public class Table {
 		
 		List<Player> players = new ArrayList<Player>();
 		players.add(new Player("Aegon", 1000, true));
-		players.add(new Player("Ben", 2000, true));
-		players.add(new Player("Charles", 1275, true));
-		players.add(new Player("Dorian", 845, true));
-		players.add(new Player("Edard", 2495, true));
+		players.add(new Player("Benjin", 2000, true));
+		players.add(new Player("Catelyn", 1275, true));
+		players.add(new Player("Daenerys", 845, true));
+		players.add(new Player("Eddard", 2495, true));
 		players.add(new Player("Fannie", 1800, true));
 
 		Table table = new Table();

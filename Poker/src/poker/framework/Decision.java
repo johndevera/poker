@@ -12,10 +12,20 @@ public class Decision {
 	}
 	
 	public DecisionType getType() {
-		return decisionType;
+		return this.decisionType;
 	}
 	
 	public int getAmount() {
-		return amount;
+		return this.amount;
+	}
+	
+	public void setType(DecisionType decision) {
+		//return decision;
+		this.decisionType = decision;
+	}
+	
+	public void setAmount(int amount) {
+		//return amount;
+		this.amount = amount;
 	}
 }
