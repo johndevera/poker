@@ -410,6 +410,20 @@ public class HandEvaluator {
 			return 0;
 		}		
 	}
+	
+	public static class CardRankReverseComparator implements Comparator<Card> {
+
+		@Override
+		public int compare(Card o1, Card o2) {
+			int r1 = o1.getRank().getValue();
+			int r2 = o2.getRank().getValue();
+			
+			if(r1 > r2) return -1;
+			if(r1 < r2)	return  1;
+			return 0;
+		}		
+	}
+	
 	/// JOHN'S WORK 6 and 7 eval
 	public static FiveCardHand evaluateSix(Card [] sixHand) { // 6 cards
 		//ABCDEF
@@ -637,7 +651,304 @@ public class HandEvaluator {
 		}			
 		return null;
 	}
+
+	///////// evaluating two hands which are same fivecardhand
 	
+	public static Card [] getBestFiveCards(Card [] sevenHand) {
+		//ABCDEFG
+		int numCards = sevenHand.length;
+		int value = 0;
+		FiveCardHand topHand = null;
+		
+		Card [] bestFiveCards = null;
+		
+		List<Card[]> eligibleFiveCards = new ArrayList<>();
+		
+		for(int i = 0; i < numCards; i++) {
+			List<Card> list = new ArrayList<Card>(Arrays.asList(sevenHand));
+			//list = Arrays.asList(sevenHand);
+			list.remove(i);
+			for(int j = i; j < numCards-1; j++) {
+				List<Card> subList = new ArrayList<Card>(list);
+				subList.remove(j);
+				Card[] cards = subList.toArray(new Card[5]);
+				FiveCardHand hand = HandEvaluator.evaluate(cards);
+				if (hand.getValue() > value) {
+					value = hand.getValue();
+					topHand = hand;
+					eligibleFiveCards.clear();
+					eligibleFiveCards.add(cards);
+				}
+				else if (hand.getValue() == value) {
+					eligibleFiveCards.add(cards);
+				}
+			}
+			
+			if(eligibleFiveCards.size() == 1) {
+				bestFiveCards = eligibleFiveCards.get(0);
+			}
+			else {
+				
+			}
+		}	
+		return bestFiveCards;
+	}
+	
+	private static void validate(Card[] _this, Card[] _that, FiveCardHand handType) {
+		
+		FiveCardHand f1 = evaluate(_this);
+		FiveCardHand f2 = evaluate(_that);
+		
+		if(f1 != handType || f2 != handType) {
+			throw new RuntimeException("Both hands must be of FiveCardHand type = " + handType);
+		}
+	}
+	
+	public static boolean isThisHandBetterThanThat(Card[] _this, Card[] _that, FiveCardHand fiveCardHand) {
+		
+		if(fiveCardHand == FiveCardHand.ONE_PAIR) return isThisOnePairBetterThanThat(_this, _that);
+		
+		if(fiveCardHand == FiveCardHand.TWO_PAIR) return isThisTwoPairBetterThanThat(_this, _that);
+		
+		if(fiveCardHand == FiveCardHand.THREE_OF_A_KIND) return isThisTripsBetterThanThat(_this, _that);
+		
+		if(fiveCardHand == FiveCardHand.STRAIGHT) return isThisStraightBetterThanThat(_this, _that);
+		
+		if(fiveCardHand == FiveCardHand.FLUSH) return isThisFlushBetterThanThat(_this, _that);
+		
+		if(fiveCardHand == FiveCardHand.FULL_HOUSE) return isThisFullHouseBetterThanThat(_this, _that);
+		
+		if(fiveCardHand == FiveCardHand.FOUR_OF_A_KIND) return isThisFoursBetterThanThat(_this, _that);
+		
+		if(fiveCardHand == FiveCardHand.STRAIGHT_FLUSH) return isThisStraightFlushBetterThanThat(_this, _that);
+		
+		return false;
+	}
+	
+	public static boolean isThisOnePairBetterThanThat(Card[] _this, Card[] _that) {
+		
+		validate(_this, _that, FiveCardHand.ONE_PAIR);
+		
+		Rank _thisTopPairRank = null;
+		Rank _thatTopPairRank = null;
+		
+		Arrays.sort(_this, new CardRankComparator());
+		Arrays.sort(_that, new CardRankComparator());
+		
+		for(int i = 0; i < _this.length-1; i++) {
+			if(_this[i].getRank() == _this[i+1].getRank()) {
+				_thisTopPairRank = _this[i].getRank();
+			}
+		}
+		
+		for(int i = 0; i < _that.length-1; i++) {
+			if(_that[i].getRank() == _that[i+1].getRank()) {
+				_thatTopPairRank = _that[i].getRank();
+			}
+		}
+		
+		if(_thisTopPairRank.getValue() > _thatTopPairRank.getValue()) {
+			return true;
+		}
+		else if(_thisTopPairRank.getValue() < _thatTopPairRank.getValue()) {
+			return false;
+		}
+		else { // Each hand's one pair is same, therefore evaluate their next best 3 cards
+				
+			Card [] _thisOtherThreeCards = new Card[3];
+			Card [] _thatOtherThreeCards = new Card[3];
+			
+			int index = 0;
+			for(int i = 0; i < _this.length; i++) {
+				if(_this[i].getRank() != _thisTopPairRank) {
+					_thisOtherThreeCards[index] = _this[i];
+					index++;
+				}
+			}
+			
+			index = 0;
+			for(int i = 0; i < _that.length; i++) {
+				if(_that[i].getRank() != _thatTopPairRank) {
+					_thatOtherThreeCards[index] = _that[i];
+					index++;
+				}
+			}
+			
+			// Sort each of the 3 cards
+			Arrays.sort(_thisOtherThreeCards, new CardRankReverseComparator());
+			Arrays.sort(_thatOtherThreeCards, new CardRankReverseComparator());
+			
+			for(int i = 0; i < 3; i++) {
+				int thisVal = _thisOtherThreeCards[i].getRank().getValue();
+				int thatVal = _thatOtherThreeCards[i].getRank().getValue();
+				
+				if(thisVal > thatVal) {
+					return true;
+				}
+				else if(thisVal < thatVal) {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isThisTwoPairBetterThanThat(Card[] _this, Card[] _that) {
+		
+		validate(_this, _that, FiveCardHand.TWO_PAIR);
+		
+		return false;
+	}
+	
+	public static boolean isThisTripsBetterThanThat(Card[] _this, Card[] _that) {
+		
+		validate(_this, _that, FiveCardHand.THREE_OF_A_KIND);
+		
+		Arrays.sort(_this, new CardRankComparator());
+		Arrays.sort(_that, new CardRankComparator());
+		
+		return false;
+	}
+	
+	public static boolean isThisStraightBetterThanThat(Card[] _this, Card[] _that) {
+		
+		validate(_this, _that, FiveCardHand.STRAIGHT);
+		
+		Arrays.sort(_this, new CardRankReverseComparator());
+		Arrays.sort(_that, new CardRankReverseComparator());
+		
+		if(_this[0].getRank().getValue() > _that[0].getRank().getValue()) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isThisFlushBetterThanThat(Card[] _this, Card[] _that) {
+		
+		validate(_this, _that, FiveCardHand.FLUSH);
+		
+		Arrays.sort(_this, new CardRankReverseComparator());
+		Arrays.sort(_that, new CardRankReverseComparator());
+		
+		if(_this[0].getRank().getValue() > _that[0].getRank().getValue()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isThisFullHouseBetterThanThat(Card[] _this, Card[] _that) {
+		
+		validate(_this, _that, FiveCardHand.FULL_HOUSE);
+		
+		Arrays.sort(_this, new CardRankComparator());
+		Arrays.sort(_that, new CardRankComparator());
+		
+		// Determine the rank of the 3 matching cards and 2 matching cards for this hand
+		Rank _thisTrips = null;
+		Rank _thisPair = null;
+		Rank _thatTrips = null;
+		Rank _thatPair = null;
+		
+		if(_this[1].getRank() == _this[2].getRank()) {
+			_thisTrips = _this[0].getRank();
+			_thisPair = _this[4].getRank();
+		}
+		else {
+			_thisTrips = _this[4].getRank();
+			_thisPair = _this[0].getRank();
+		}
+		
+		if(_that[1].getRank() == _that[2].getRank()) {
+			_thatTrips = _that[0].getRank();
+			_thatPair = _that[4].getRank();
+		}
+		else {
+			_thatTrips = _that[4].getRank();
+			_thatPair = _that[0].getRank();
+		}
+		
+		// Compare the trips cards for each
+		if(_thisTrips.getValue() > _thatTrips.getValue()) { // i.e.) 99922 > 444KK
+			return true;
+		}
+		else if (_thisTrips.getValue() < _thatTrips.getValue()) {
+			return false;
+		}
+		else { // The trips cards are same, now compare the pair cards for each
+			
+			if(_thisPair.getValue() > _thatPair.getValue()) { // i.e.) KKKJJ > KKK88
+				return true;
+			}
+			else if (_thisPair.getValue() < _thatPair.getValue()) {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isThisFoursBetterThanThat(Card[] _this, Card[] _that) {
+		
+		validate(_this, _that, FiveCardHand.FOUR_OF_A_KIND);
+		
+		Arrays.sort(_this, new CardRankComparator());
+		Arrays.sort(_that, new CardRankComparator());
+		
+		// Determine the rank of the 4 matching cards and 1 high cards for this hand
+		Rank _thisFours = null;
+		Rank _thisHigh = null;
+		Rank _thatFours = null;
+		Rank _thatHigh = null;
+		
+		if(_this[0].getRank() == _this[1].getRank()) {
+			_thisFours = _this[0].getRank();
+			_thisHigh = _this[4].getRank();
+		}
+		else {
+			_thisFours = _this[4].getRank();
+			_thisHigh = _this[0].getRank();
+		}
+		
+		if(_that[0].getRank() == _that[1].getRank()) {
+			_thatFours = _that[0].getRank();
+			_thatHigh = _that[4].getRank();
+		}
+		else {
+			_thatFours = _that[4].getRank();
+			_thatHigh = _that[0].getRank();
+		}
+		
+		// Compare the fours cards for each
+		if(_thisFours.getValue() > _thatFours.getValue()) { // i.e.) KKKK7 > 55553
+			return true;
+		}
+		else if (_thisFours.getValue() < _thatFours.getValue()) {
+			return false;
+		}
+		else { // The fours cards are same, now compare the high cards for each
+			
+			if(_thisHigh.getValue() > _thatHigh.getValue()) { // i.e.) QQQQ8 > QQQQ6
+				return true;
+			}
+			else if (_thisHigh.getValue() < _thatHigh.getValue()) {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isThisStraightFlushBetterThanThat(Card[] _this, Card[] _that) {
+		
+		validate(_this, _that, FiveCardHand.STRAIGHT_FLUSH);
+		
+		Arrays.sort(_this, new CardRankReverseComparator());
+		Arrays.sort(_that, new CardRankReverseComparator());
+		
+		if(_this[0].getRank().getValue() > _that[0].getRank().getValue()) {
+			return true;
+		}
+		
+		return false;
+	}
 }
 
 

@@ -1,16 +1,10 @@
+package poker.framework;
 //import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
 import org.junit.Test;
 import org.junit.Assert;
-
-import poker.framework.Card;
-import poker.framework.Deck;
-import poker.framework.FiveCardHand;
-//import poker.framework.Hand;
-import poker.framework.HandEvaluator;
-import poker.framework.PocketHand;
 
 import static poker.framework.Card.*;
 
