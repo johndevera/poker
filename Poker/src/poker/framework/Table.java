@@ -53,6 +53,14 @@ public class Table {
 		return positions;
 	}
 	
+	private void calcTotals(List<Player> players) {
+		int sum = 0;
+		for(int i = 0; i < players.size(); i++) {
+			sum += players.get(i).getStack();
+		System.out.println("Total Money: " + sum);	
+		}
+		
+	}
 	public void playGame(List<Player> players, int gameNum) {
 		
 		deck.init();
@@ -62,12 +70,8 @@ public class Table {
 		System.out.println("Game #" + gameNum);
 		System.out.println("---------");
 		
-		int sum = 0;
-		for(int i = 0; i < players.size(); i++) {
-			sum += players.get(i).getStack();
-		}
+		calcTotals(players);
 		
-		System.out.println("Total Money: " + sum);
 		
 		Game game = new Game(getPlayerPositions(players), BIG_BLIND);
 		
@@ -435,7 +439,7 @@ public class Table {
 		Table table = new Table();
 		table.open();
 		
-		int totalGames = 100;
+		int totalGames = 10;
 		
 		int gameNum = 1;
 		while(gameNum <= totalGames) {
