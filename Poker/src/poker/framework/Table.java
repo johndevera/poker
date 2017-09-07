@@ -16,7 +16,7 @@ public class Table {
 	
 	private static final String SMALL_BLIND_IND 	= "( SB)";
 	private static final String BIG_BLIND_IND 		= "( BB)";
-	private static final String DEALER_IND 			= "(  D)";
+	private static final String DEALER_IND 			= "( D )";
 	private static final String UNDER_THE_GUN_IND 	= "(UTG)";
 	private static final String OTHER 				= "(   )";
 		
@@ -61,6 +61,13 @@ public class Table {
 		System.out.println();
 		System.out.println("Game #" + gameNum);
 		System.out.println("---------");
+		
+		int sum = 0;
+		for(int i = 0; i < players.size(); i++) {
+			sum += players.get(i).getStack();
+		}
+		
+		System.out.println("Total Money: " + sum);
 		
 		Game game = new Game(getPlayerPositions(players), BIG_BLIND);
 		
@@ -428,7 +435,7 @@ public class Table {
 		Table table = new Table();
 		table.open();
 		
-		int totalGames = 2;
+		int totalGames = 100;
 		
 		int gameNum = 1;
 		while(gameNum <= totalGames) {
