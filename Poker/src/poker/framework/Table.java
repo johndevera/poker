@@ -208,13 +208,14 @@ public class Table {
 				game.addRiverDecision(currentPlayer, decision);
 			}
 									
-			int bet = decision.getAmount();
+			int amount = decision.getAmount();
 			DecisionType choice = decision.getType();
 			
 			if (choice == DecisionType.RAISE) { //raise NEEDS TO BE WORKED ON. LOGIC STEP THROUGH
-				game.setBet(bet);
-				System.out.println("--" + currentPlayer + " raises|bets--");
-				increasePot(currentPlayer, game, bet);
+				game.setBet(amount);
+				//printResults(currentPlayer, game, amount, decision);
+				//System.out.println("--" + currentPlayer + " raises|bets--");
+				//increasePot(currentPlayer, game, amount, decision);
 				pendingQ.remove();
 				while(!finishedQ.isEmpty())
 					pendingQ.add(finishedQ.remove());
@@ -223,28 +224,28 @@ public class Table {
 			}
 			else if(choice == DecisionType.CALL || choice == DecisionType.CHECK) { //call or check. Preflop all calls -> queues work well.
 				if(choice == DecisionType.CALL) {
-					System.out.println("--" + currentPlayer + " calls--");
-					increasePot(currentPlayer, game, bet);
+					//System.out.println("--" + currentPlayer + " calls--");
+					//increasePot(currentPlayer, game, amount, decision);
 				}
 				else {
-					System.out.println("--" + currentPlayer + " checks--");
+					//System.out.println("--" + currentPlayer + " checks--");
 				}
 				pendingQ.remove(); //this is playerHands.get(currentAction)
 				finishedQ.add(playerHands.get(currentAction));
 			}	
 			else if (choice == DecisionType.FOLD){
-				System.out.println("--" + currentPlayer + " folds--");
+				//System.out.println("--" + currentPlayer + " folds--");
 				playerHands.remove(currentAction); //fold. Seems to work well
 				pendingQ.remove();
 				currentAction--;
 			}
 			else { // all in
-				game.setBet(bet);
+				game.setBet(amount);
 				game.addAllInPlayer(currentPlayer);
-				System.out.println("--" + currentPlayer + " all-in--");
-				increasePot(currentPlayer, game, bet);
+				//System.out.println("--" + currentPlayer + " all-in--");
+				//increasePot(currentPlayer, game, amount, decision);
 			}
-
+			increasePot(currentPlayer, game, amount, decision.getType());
 			currentAction++;
 			
 			if(currentAction == playerHands.size()) {
@@ -260,20 +261,32 @@ public class Table {
 			}catch(Exception e) {
 					e.printStackTrace();
 			}
+			//printResults(currentPlayer, game, amount, decision);
+			
+			//Used to make sure there is at least one person who wins in pendingQ or finishedQ 
+			//PendingQ has to be size 1 and FinishedQ has to be size 0  and vice versa
+			if ((pendingQ.size() == 1 && finishedQ.size() == 0)||(pendingQ.size() == 0 && finishedQ.size() == 1)) {
+				break;
+			}
 		}
 		return playerHands;
 	}
 	
+	private void printResults(Player player, Game game, int oldStack, int amount, DecisionType decision){
+		//int oldStack = player.getStack();
+		System.out.println(player + ":\t" + decision + "\tStack:" + oldStack + "\t-" + amount + " = " + player.getStack()+ "\t ... POT = " + game.getPot());
+	}
 	/**
 	 * This method is synchronized because we need to ensure increasing pot + deducting amount from player is an atomic transaction
 	 */
-	private synchronized void increasePot(Player player, Game game, int amount) {
+	private synchronized void increasePot(Player player, Game game, int amount, DecisionType decision) {
 		int oldStack = player.getStack();
 		player.setMyBet(amount);
 		player.deduct(amount);
 		game.increasePot(amount);
+		printResults(player, game, oldStack, amount, decision);
 		//System.out.println(player + " -" + amount + " ... pot = " + game.getPot());
-		System.out.println(player + ":" + oldStack + " - " + amount + " = " + player.getStack()+ " ... pot = " + game.getPot());
+		//System.out.println(player + ": \tStack:" + oldStack + "-" + amount + " = " + player.getStack()+ "\t ... POT = " + game.getPot());
 	}
 	
 	/**
@@ -320,9 +333,8 @@ public class Table {
 		Player smallBlindPlayer = playerHands.get(0).getPlayer();
 		Player bigBlindPlayer 	= playerHands.get(1).getPlayer();
 		
-		increasePot(smallBlindPlayer, game, SMALL_BLIND);
-		increasePot(bigBlindPlayer  , game, BIG_BLIND);
-
+		increasePot(smallBlindPlayer, game, SMALL_BLIND, DecisionType.RAISE);
+		increasePot(bigBlindPlayer  , game, BIG_BLIND, DecisionType.RAISE);
 		playerHands = betting(game, playerHands, true);
 		
 		if(playerHands.size() == 1) {
@@ -406,12 +418,12 @@ public class Table {
 	public static void main(String [] args) {
 		
 		List<Player> players = new ArrayList<Player>();
-		players.add(new Player("Aegon", 1000, true));
-		players.add(new Player("Benjin", 2000, true));
-		players.add(new Player("Catelyn", 1275, true));
-		players.add(new Player("Daenerys", 845, true));
-		players.add(new Player("Eddard", 2495, true));
-		players.add(new Player("Fannie", 1800, true));
+		players.add(new Player("Abe", 1000, true));
+		players.add(new Player("Ben", 2000, true));
+		players.add(new Player("Cat", 1275, true));
+		players.add(new Player("Dan", 845, true));
+		players.add(new Player("Edd", 2495, true));
+		players.add(new Player("Fay", 1800, true));
 
 		Table table = new Table();
 		table.open();
