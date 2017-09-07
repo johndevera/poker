@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.*;
 
 import poker.framework.Game;
-import poker.strategy.FiveCardHand;
 
 public class Table {
 	

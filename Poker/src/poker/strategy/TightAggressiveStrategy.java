@@ -8,6 +8,7 @@ import poker.framework.Game;
 import poker.framework.Hand;
 import poker.framework.HandEvaluator;
 import poker.framework.Player;
+import poker.framework.PocketHand;
 import poker.framework.Street;
 import java.util.EnumMap;
 

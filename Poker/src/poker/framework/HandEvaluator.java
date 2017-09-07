@@ -7,10 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import poker.strategy.DrawingHands;
-import poker.strategy.FiveCardHand;
-import poker.strategy.PocketHand;
-
 import static poker.framework.Rank.*;
 
 

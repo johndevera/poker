@@ -1,4 +1,4 @@
-package poker.strategy;
+package poker.framework;
 
 public enum PocketHand {
 

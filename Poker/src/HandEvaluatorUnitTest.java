@@ -7,10 +7,11 @@ import org.junit.Assert;
 
 import poker.framework.Card;
 import poker.framework.Deck;
+import poker.framework.FiveCardHand;
 //import poker.framework.Hand;
 import poker.framework.HandEvaluator;
-import poker.strategy.FiveCardHand;
-import poker.strategy.PocketHand;
+import poker.framework.PocketHand;
+
 import static poker.framework.Card.*;
 
 public class HandEvaluatorUnitTest {

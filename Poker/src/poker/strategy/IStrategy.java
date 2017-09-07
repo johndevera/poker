@@ -5,6 +5,7 @@ import poker.framework.Decision;
 import poker.framework.Game;
 import poker.framework.Hand;
 import poker.framework.Player;
+import poker.framework.PocketHand;
 
 public interface IStrategy {
 
