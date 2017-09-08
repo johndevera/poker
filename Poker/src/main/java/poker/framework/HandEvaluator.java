@@ -465,11 +465,52 @@ public class HandEvaluator {
 			
 			if(r1 > r2) return -1;
 			if(r1 < r2)	return  1;
+			
 			return 0;
 		}		
 	}
 	
+	public static class CardComparator implements Comparator<Card> {
 
+		@Override
+		public int compare(Card o1, Card o2) {
+			int r1 = o1.getRank().getValue();
+			int r2 = o2.getRank().getValue();
+			
+			if(r1 < r2) return -1;
+			if(r1 > r2)	return  1;
+			
+			int s1 = o1.getSuit().getValue();
+			int s2 = o2.getSuit().getValue();
+			
+			if(s1 < s2) return -1;
+			if(s1 > s2)	return  1;
+			
+			return 0;
+		}		
+	}
+	
+	public static class CardReverseComparator implements Comparator<Card> {
+
+		@Override
+		public int compare(Card o1, Card o2) {
+			int r1 = o1.getRank().getValue();
+			int r2 = o2.getRank().getValue();
+			
+			if(r1 > r2) return -1;
+			if(r1 < r2)	return  1;
+			
+			int s1 = o1.getSuit().getValue();
+			int s2 = o2.getSuit().getValue();
+			
+			if(s1 > s2) return -1;
+			if(s1 < s2)	return  1;
+			
+			return 0;
+		}		
+	}
+	
+	
 	
 	public static PocketHand evaluatePocket(Card [] hand) { 
 		
@@ -1017,6 +1058,14 @@ public class HandEvaluator {
 		}
 		
 		return false;
+	}
+	
+	public static void sortAscending(Card [] cards) {
+		Arrays.sort(cards, new CardComparator());
+	}
+	
+	public static void sortDescending(Card [] cards) {
+		Arrays.sort(cards, new CardReverseComparator());
 	}
 }
 
