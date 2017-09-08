@@ -1,9 +1,13 @@
 package poker.framework;
 //import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.junit.Test;
+
+import poker.framework.HandEvaluator.CardRankComparator;
+
 import org.junit.Assert;
 
 import static poker.framework.Card.*;
@@ -169,18 +173,52 @@ public class HandEvaluatorUnitTest {
 	
 	@Test
 	public void testOnePair() {
-		Card[] fiveCards = {ACE_OF_SPADES, THREE_OF_CLUBS, SEVEN_OF_CLUBS, KING_OF_SPADES, THREE_OF_CLUBS};
+		Card[] fiveCards = {ACE_OF_SPADES, SEVEN_OF_CLUBS, SEVEN_OF_SPADES, FIVE_OF_SPADES, THREE_OF_CLUBS};
 		FiveCardHand five = HandEvaluator.evaluateOnePair(fiveCards);
+		int cardValue = five.getCardValue();
+		Assert.assertEquals(7, cardValue);
+	}
+	
+	@Test
+	public void testTwoPair() {
+		Card[] fiveCards = {ACE_OF_SPADES, QUEEN_OF_CLUBS, QUEEN_OF_SPADES, SEVEN_OF_CLUBS, SEVEN_OF_SPADES};
+		FiveCardHand five = HandEvaluator.evaluateTwoPair(fiveCards);
 		int cardValue = five.getCardValue();
 		Assert.assertEquals(12, cardValue);
 	}
 	
 	@Test
-	public void testTwoPair() {
-		Card[] fiveCards = {ACE_OF_SPADES, ACE_OF_CLUBS, SEVEN_OF_CLUBS, KING_OF_SPADES, KING_OF_CLUBS};
-		FiveCardHand five = HandEvaluator.evaluateTwoPair(fiveCards);
-		int cardValue = five.getCardValue();
-		Assert.assertEquals(14, cardValue);
+	public void testGetBestFiveCards() {
+		Card[] sevenHand = {SEVEN_OF_SPADES, KING_OF_HEARTS, ACE_OF_CLUBS, JACK_OF_SPADES, JACK_OF_HEARTS,  ACE_OF_DIAMONDS, SEVEN_OF_CLUBS};
+		//Card[] sevenHand = {ACE_OF_SPADES, KING_OF_CLUBS, ACE_OF_CLUBS, QUEEN_OF_SPADES, KING_OF_HEARTS,  QUEEN_OF_CLUBS, TWO_OF_SPADES};
+		//Card[] sevenHand = {ACE_OF_SPADES, QUEEN_OF_CLUBS, THREE_OF_CLUBS, QUEEN_OF_SPADES, SEVEN_OF_CLUBS,  TWO_OF_CLUBS, SEVEN_OF_SPADES};
+
+		Card[] five = HandEvaluator.getBestFiveCards(sevenHand);
+		Card[] goodFive = {ACE_OF_SPADES, QUEEN_OF_CLUBS, QUEEN_OF_SPADES, SEVEN_OF_CLUBS, SEVEN_OF_SPADES};
+		Arrays.sort(five, new CardRankComparator());
+		Arrays.sort(goodFive, new CardRankComparator());
+		
+		System.out.println(five[0]);
+		System.out.println(five[1]);
+		System.out.println(five[2]);
+		System.out.println(five[3]);
+		System.out.println(five[4]);
+		/*
+		System.out.println(five[0] + " + " + goodFive[0]);
+		System.out.println(five[1] + " + " + goodFive[1]);
+		System.out.println(five[2] + " + " + goodFive[2]);
+		System.out.println(five[3] + " + " + goodFive[3]);
+		System.out.println(five[4] + " + " + goodFive[4]);
+		*/
+		
+		Assert.assertEquals(goodFive, five);
+	}
+	
+	@Test
+	public void testSevenCards() {
+		Card[] sevenHand = {ACE_OF_SPADES, QUEEN_OF_CLUBS, THREE_OF_CLUBS, QUEEN_OF_SPADES, SEVEN_OF_CLUBS,  TWO_OF_CLUBS, SEVEN_OF_SPADES};
+		FiveCardHand five = HandEvaluator.evaluateSeven(sevenHand);
+		Assert.assertEquals(FiveCardHand.TWO_PAIR, five);
 	}
 	
 	/*

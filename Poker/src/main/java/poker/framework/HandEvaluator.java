@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import poker.framework.HandEvaluator.CardRankComparator;
+
 import static poker.framework.Rank.*;
 
 
@@ -160,29 +162,27 @@ public class HandEvaluator {
 				return onePair;
 			}
 		}
-		for(int i=0; i < hand.length-1; i++) {
-			Rank rank = hand[i].getRank();
-			for(int j=i+1; j < hand.length; j++) {
-				if(rank == hand[j].getRank()) {
-					onePair.setCardValue(rank.getValue());
-					return onePair;
-				}
-			}
-		}
 		return null;
 	}
-	/*
-	private static FiveCardHand evaluateTwoPair(Card [] hand) {
+	
+	public static FiveCardHand evaluateTwoPair(Card [] hand) {
 		if( 	(hand[0].getRank() == hand[1].getRank() && hand[2].getRank() == hand[3].getRank()) ||	
 				(hand[1].getRank() == hand[2].getRank() && hand[3].getRank() == hand[4].getRank()) ||
 				(hand[0].getRank() == hand[1].getRank() && hand[3].getRank() == hand[4].getRank())) {
-			return FiveCardHand.TWO_PAIR;
+			FiveCardHand twoPair = FiveCardHand.TWO_PAIR;
+			//inside for cards 1 and 3 will always stay the same
+			if(hand[1].getRank().getValue() > hand[3].getRank().getValue()) {
+				twoPair.setCardValue(hand[1].getRank().getValue());
+				return twoPair;
+			}
+			twoPair.setCardValue(hand[3].getRank().getValue());
+			return twoPair;
 		}
 		return null;
 	}
-	*/
 	
 	
+	/*
 	public static FiveCardHand evaluateTwoPair(Card [] hand) { 
 		
 		for(int i = 0; i<hand.length-2; i++){
@@ -224,6 +224,7 @@ public class HandEvaluator {
 		}
 		return null;
 	}
+	*/
 	
 	private static FiveCardHand evaluateThreeOfAKind(Card [] hand) {
 		
@@ -468,51 +469,7 @@ public class HandEvaluator {
 		}		
 	}
 	
-	/// JOHN'S WORK 6 and 7 eval
-	public static FiveCardHand evaluateSix(Card [] sixHand) { // 6 cards
-		//ABCDEF
-		int numCards = sixHand.length;
-		int value = 0;
-		FiveCardHand topHand = null;
 
-		for(int i = 0; i < numCards; i++) { //omit one element from sixHand
-
-			List<Card> list = new ArrayList<Card>(Arrays.asList(sixHand));
-			//list = Arrays.asList(sixHand);
-			list.remove(i);
-			Card[] cards = list.toArray(new Card[5]);
-			FiveCardHand hand = HandEvaluator.evaluate(cards);
-				if (hand.getValue() > value) {
-					value = hand.getValue();
-					topHand = hand;
-				}
-			}	
-		return topHand;
-	}
-	
-	public static FiveCardHand evaluateSeven(Card [] sevenHand) {
-		//ABCDEFG
-		int numCards = sevenHand.length;
-		int value = 0;
-		FiveCardHand topHand = null;
-		
-		for(int i = 0; i < numCards; i++) {
-			List<Card> list = new ArrayList<Card>(Arrays.asList(sevenHand));
-			//list = Arrays.asList(sevenHand);
-			list.remove(i);
-			for(int j = i; j < numCards-1; j++) {
-				List<Card> subList = new ArrayList<Card>(list);
-				subList.remove(j);
-				Card[] cards = subList.toArray(new Card[5]);
-				FiveCardHand hand = HandEvaluator.evaluate(cards);
-				if (hand.getValue() > value) {
-					value = hand.getValue();
-					topHand = hand;
-				}
-			}
-		}	
-		return topHand;
-	}
 	
 	public static PocketHand evaluatePocket(Card [] hand) { 
 		
@@ -696,17 +653,33 @@ public class HandEvaluator {
 		return null;
 	}
 
-	///////// evaluating two hands which are same fivecardhand
+	/// JOHN'S WORK 6 and 7 eval
+	public static FiveCardHand evaluateSix(Card [] sixHand) { // 6 cards
+		//ABCDEF
+		int numCards = sixHand.length;
+		int value = 0;
+		FiveCardHand topHand = null;
+
+		for(int i = 0; i < numCards; i++) { //omit one element from sixHand
+
+			List<Card> list = new ArrayList<Card>(Arrays.asList(sixHand));
+			//list = Arrays.asList(sixHand);
+			list.remove(i);
+			Card[] cards = list.toArray(new Card[5]);
+			FiveCardHand hand = HandEvaluator.evaluate(cards);
+				if (hand.getValue() > value) {
+					value = hand.getValue();
+					topHand = hand;
+				}
+			}	
+		return topHand;
+	}
 	
-	public static Card [] getBestFiveCards(Card [] sevenHand) {
+	public static FiveCardHand evaluateSeven(Card [] sevenHand) {
 		//ABCDEFG
 		int numCards = sevenHand.length;
 		int value = 0;
 		FiveCardHand topHand = null;
-		
-		Card [] bestFiveCards = null;
-		
-		List<Card[]> eligibleFiveCards = new ArrayList<>();
 		
 		for(int i = 0; i < numCards; i++) {
 			List<Card> list = new ArrayList<Card>(Arrays.asList(sevenHand));
@@ -720,22 +693,74 @@ public class HandEvaluator {
 				if (hand.getValue() > value) {
 					value = hand.getValue();
 					topHand = hand;
+				}
+			}
+		}	
+		return topHand;
+	}	
+	
+	///////// evaluating two hands which are same fivecardhand
+	
+	public static Card [] getBestFiveCards(Card [] sevenHand) {
+		//ABCDEFG
+		Arrays.sort(sevenHand, new CardRankComparator());
+		int numCards = sevenHand.length;
+		int value = 0;
+		int cardValue = 0;
+		int oldRank = 0;
+		int rank1 = 0;
+		int rank3 = 0;
+		boolean secondPair = false;
+
+		List<Card[]> eligibleFiveCards = new ArrayList<>();
+		
+		for(int i = 0; i < numCards; i++) {
+			List<Card> list = new ArrayList<Card>(Arrays.asList(sevenHand));
+
+			list.remove(i);
+			for(int j = i; j < numCards-1; j++) {
+
+				List<Card> subList = new ArrayList<Card>(list);
+				subList.remove(j);
+
+				Card[] cards = subList.toArray(new Card[5]);
+				FiveCardHand hand = HandEvaluator.evaluate(cards);
+				
+				rank1 = cards[1].getRank().getValue();
+				rank3 = cards[3].getRank().getValue();
+				if(rank1 > rank3) {
+
+					hand.setCardValue(rank1);
+					if(rank3 > oldRank) {
+						oldRank = rank3;
+						secondPair = true;
+						
+					}
+					else {
+						secondPair = false;
+					}
+				}
+				else {
+					hand.setCardValue(rank3);
+					if(rank1 > oldRank) {
+						oldRank = rank1;
+						secondPair = true;
+						
+					}
+					else {
+						secondPair = false;
+					}
+
+				}
+				if (hand.getValue() > value || (hand.getValue() == value && hand.getCardValue() > cardValue && secondPair)) {
+					value = hand.getValue();
+					cardValue = hand.getCardValue();
 					eligibleFiveCards.clear();
 					eligibleFiveCards.add(cards);
 				}
-				else if (hand.getValue() == value) {
-					eligibleFiveCards.add(cards);
-				}
 			}
-			
-			if(eligibleFiveCards.size() == 1) {
-				bestFiveCards = eligibleFiveCards.get(0);
-			}
-			else {
-				
-			}
-		}	
-		return bestFiveCards;
+		}
+		return eligibleFiveCards.get(eligibleFiveCards.size()-1);
 	}
 	
 	private static void validate(Card[] _this, Card[] _that, FiveCardHand handType) {
