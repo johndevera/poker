@@ -90,7 +90,7 @@ public class HandEvaluatorUnitTest {
 		else return null;
 	}
 	 //Test 6 cards
-	@Test
+	//@Test
 	public void testRandomXGetStats() {
 		int num_hands = 10000;
 		int num_cards = 7;
@@ -132,11 +132,11 @@ public class HandEvaluatorUnitTest {
 		//}
 		
 	}
-	@Test 
+	//@Test 
 	public void testEvaluate() {
 		Card[] fiveCards = {ACE_OF_SPADES, ACE_OF_CLUBS, ACE_OF_DIAMONDS, KING_OF_SPADES, KING_OF_CLUBS};
 		FiveCardHand result1 = HandEvaluator.evaluate(fiveCards);
-		Assert.assertEquals(FiveCardHand.FLUSH, result1);
+		Assert.assertEquals(FiveCardHand.FLUSH_A, result1);
 	}
 	//@Test
 	public void testPocketHand() {
@@ -157,6 +157,30 @@ public class HandEvaluatorUnitTest {
 			System.out.println(pocketCards[0].getShortName() + ", " + 
 							   pocketCards[1].getShortName() + ": " + pocketHand);
 		}
+	}
+	
+	@Test
+	public void testHighCard() {
+		Card[] fiveCards = {ACE_OF_SPADES, ACE_OF_CLUBS, ACE_OF_DIAMONDS, KING_OF_SPADES, KING_OF_CLUBS};
+		FiveCardHand five = HandEvaluator.evaluateHighCard(fiveCards);
+		int cardValue = five.getCardValue();
+		Assert.assertEquals(14, cardValue);
+	}
+	
+	@Test
+	public void testOnePair() {
+		Card[] fiveCards = {ACE_OF_SPADES, THREE_OF_CLUBS, SEVEN_OF_CLUBS, KING_OF_SPADES, THREE_OF_CLUBS};
+		FiveCardHand five = HandEvaluator.evaluateOnePair(fiveCards);
+		int cardValue = five.getCardValue();
+		Assert.assertEquals(12, cardValue);
+	}
+	
+	@Test
+	public void testTwoPair() {
+		Card[] fiveCards = {ACE_OF_SPADES, ACE_OF_CLUBS, SEVEN_OF_CLUBS, KING_OF_SPADES, KING_OF_CLUBS};
+		FiveCardHand five = HandEvaluator.evaluateTwoPair(fiveCards);
+		int cardValue = five.getCardValue();
+		Assert.assertEquals(14, cardValue);
 	}
 	
 	/*

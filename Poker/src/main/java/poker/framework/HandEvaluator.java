@@ -134,32 +134,93 @@ public class HandEvaluator {
 		return bestHands.iterator().next();
 	}
 	
-	private static FiveCardHand evaluateOnePair(Card [] hand) {
+	public static FiveCardHand evaluateHighCard(Card [] hand) {
+		int highCard = 0;
+		FiveCardHand topCard = FiveCardHand.HIGH_CARD;
 		
-		for(int i=0; i < 4; i++) {
-			
-			if(hand[i].getRank() == hand[i+1].getRank()) {
-				return FiveCardHand.ONE_PAIR;
+		for (int i = 0; i < hand.length; i++) {
+			int rank = hand[i].getRank().getValue();
+			if(highCard < rank) {
+				highCard = rank;
+			}
+		}
+		topCard.setCard(1, highCard);
+		return topCard;
+		
+	}
+	
+	
+	public static FiveCardHand evaluateOnePair(Card [] hand) {
+		
+		FiveCardHand onePair = FiveCardHand.ONE_PAIR;
+		for(int i=0; i < hand.length-1; i++) {
+			Rank rank = hand[i].getRank();
+			if(rank == hand[i+1].getRank()) {
+				onePair.setCardValue(rank.getValue());
+				return onePair;
+			}
+		}
+		for(int i=0; i < hand.length-1; i++) {
+			Rank rank = hand[i].getRank();
+			for(int j=i+1; j < hand.length; j++) {
+				if(rank == hand[j].getRank()) {
+					onePair.setCardValue(rank.getValue());
+					return onePair;
+				}
 			}
 		}
 		return null;
 	}
-	
+	/*
 	private static FiveCardHand evaluateTwoPair(Card [] hand) {
-		
-		
-		if( 	(hand[0].getRank() == hand[1].getRank() &&
-				hand[2].getRank() == hand[3].getRank()) ||
-				
-				(hand[1].getRank() == hand[2].getRank() &&
-				hand[3].getRank() == hand[4].getRank()) ||
-				
-				(hand[0].getRank() == hand[1].getRank() &&
-				hand[3].getRank() == hand[4].getRank())
-				
-			) {
-		
+		if( 	(hand[0].getRank() == hand[1].getRank() && hand[2].getRank() == hand[3].getRank()) ||	
+				(hand[1].getRank() == hand[2].getRank() && hand[3].getRank() == hand[4].getRank()) ||
+				(hand[0].getRank() == hand[1].getRank() && hand[3].getRank() == hand[4].getRank())) {
 			return FiveCardHand.TWO_PAIR;
+		}
+		return null;
+	}
+	*/
+	
+	
+	public static FiveCardHand evaluateTwoPair(Card [] hand) { 
+		
+		for(int i = 0; i<hand.length-2; i++){
+			//Rank rank1 = hand[i].getRank();
+			for(int j = i+1; j < hand.length-1; j++) {
+				if(i<hand.length-2 && hand[i].getRank() == hand[j].getRank()) { //if after 3rd index, there is no twopair, it does not exist
+					//Rank rank2 = hand[i+2].getRank();
+					FiveCardHand twoPair = FiveCardHand.TWO_PAIR;
+					if(i<3 && j<3 && hand[i+2].getRank() == hand[j+2].getRank()) { //XAABB
+						
+						if(hand[i].getRank().getValue() > hand[i+2].getRank().getValue()) {
+							twoPair.setCardValue(hand[i].getRank().getValue());
+						}
+						else {
+							twoPair.setCardValue(hand[i+2].getRank().getValue());
+						}
+					if(i<3 && j==3 && hand[i+1].getRank() == hand[j+1].getRank()) {//XABAB
+						if(hand[i].getRank().getValue() > hand[j+1].getRank().getValue()) {
+							twoPair.setCardValue(hand[i].getRank().getValue());
+						}
+						else {
+							twoPair.setCardValue(hand[j].getRank().getValue());
+						}
+					if(i<3 && j==4 && hand[i+1].getRank() == hand[j].getRank()) { //XABBA
+						
+					}
+						if(hand[i].getRank().getValue() > hand[j-1].getRank().getValue()) {
+							twoPair.setCardValue(hand[i].getRank().getValue());
+						}
+						else {
+							twoPair.setCardValue(hand[j-1].getRank().getValue());
+						}						
+					}
+					
+					}
+				}
+			}
+
 		}
 		return null;
 	}
@@ -364,24 +425,7 @@ public class HandEvaluator {
 		}
 		return draw;	
 	}
-	/*
-	public static DrawingHands[] evaluateDraws(Card[] hand) {
-		
-		if(hand == null || hand.length != 4) 
-			throw new RuntimeException("This method should never be called without passing 5-cards!");
-		//List<Card> list = new ArrayList<Card>(Arrays.asList(sevenHand));
-		Arrays.sort(hand, new CardRankComparator());
-		DrawingHands[] draw = new DrawingHands[3];
-		draw[0] = evaluateFlushDraw(hand);
-		draw[1] = evaluateInsideStraightDraw(hand);
-		draw[2] = evaluateOpenEndedStraightDraw(hand);
-		
-		//List<DrawingHands> draw = new ArrayList<DrawingHands>(null);
-		//draw.add(e) evaluateStraight(hand);
-		
-		return draw;
-	}
-	*/
+
 	
 	public static DrawingHands[] evaluateDraws(Card[] hand) { 
 		
