@@ -62,12 +62,8 @@ public enum FiveCardHand {
 	FLUSH_10(6, 10), //XXXXX not card value dependent. If two players have flush, split.
 	FLUSH_9(6, 9), //XXXXX not card value dependent. If two players have flush, split.
 	FLUSH_8(6, 8), //XXXXX not card value dependent. If two players have flush, split.
-	FLUSH_7(6, 7), //XXXXX not card value dependent. If two players have flush, split.
-	FLUSH_6(6, 6), //XXXXX not card value dependent. If two players have flush, split.
-	FLUSH_5(6, 5), //XXXXX not card value dependent. If two players have flush, split.
-	FLUSH_4(6, 4), //XXXXX not card value dependent. If two players have flush, split.
-	FLUSH_3(6, 3), //XXXXX not card value dependent. If two players have flush, split.
-	FLUSH(6, 2), //XXXXX not card value dependent. If two players have flush, split.
+	FLUSH(6, 7), //XXXXX not card value dependent. If two players have flush, split.
+	//lowest regular flush is 7. 23456 is a straight flush. A2345 is straigh flush with A
 	
 	STRAIGHT_A(5, 14),//A2345
 	STRAIGHT_K(5, 13),//A2345

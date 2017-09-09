@@ -194,7 +194,7 @@ public class HandEvaluatorUnitTest {
 		//Card[] sevenHand = {ACE_OF_SPADES, QUEEN_OF_CLUBS, THREE_OF_CLUBS, QUEEN_OF_SPADES, SEVEN_OF_CLUBS,  TWO_OF_CLUBS, SEVEN_OF_SPADES};
 
 		Card[] five = HandEvaluator.getBestFiveCards(sevenHand);
-		Card[] goodFive = {ACE_OF_SPADES, QUEEN_OF_CLUBS, QUEEN_OF_SPADES, SEVEN_OF_CLUBS, SEVEN_OF_SPADES};
+		Card[] goodFive = {ACE_OF_CLUBS, ACE_OF_DIAMONDS, KING_OF_HEARTS, JACK_OF_SPADES, JACK_OF_HEARTS, };
 		Arrays.sort(five, new CardRankComparator());
 		Arrays.sort(goodFive, new CardRankComparator());
 		

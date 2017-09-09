@@ -300,6 +300,13 @@ public class HandEvaluator {
 		int rankValue3 = hand[3].getRank().getValue();
 		int rankValue4 = hand[4].getRank().getValue();
 		
+		System.out.println(hand[0]);
+		System.out.println(hand[1]);
+		System.out.println(hand[2]);
+		System.out.println(hand[3]);
+		System.out.println(hand[4]);
+		
+		FiveCardHand straight = FiveCardHand.STRAIGHT;
 		if(((rankValue0 == rankValue1 - 1) &&
 			(rankValue1 == rankValue2 - 1) &&
 			(rankValue2 == rankValue3 - 1) &&
@@ -310,34 +317,45 @@ public class HandEvaluator {
 			 hand[2].getRank() == Rank.FOUR &&
 			 hand[3].getRank() == Rank.FIVE &&
 			 hand[4].getRank() == Rank.ACE)) {
-			return FiveCardHand.STRAIGHT;
+			System.out.println("YIPEE");
+			straight.setCardValue(rankValue4);
+			System.out.println(straight + " value-" + straight.getValue() + " cardValue-" + straight.getCardValue());
+
+			return straight;
 		}
 		return null;	
 	}
 
 	private static FiveCardHand evaluateFlush(Card [] hand) {
 		
+		FiveCardHand flush = FiveCardHand.FLUSH;
 		int sameSuit = 1;
 		for(int i = 0; i < 4; i++) {
 			if(hand[i].getSuit() == hand[i+1].getSuit()) {
 				sameSuit++;
 			}
 		}
-		if(sameSuit == 5)
-			return FiveCardHand.FLUSH;
-		
+		if(sameSuit == 5) {
+			flush.setCardValue(hand[4].getRank().getValue());
+			return flush;
+		}
 		return null;		
 	}
 	
 	private static FiveCardHand evaluateStraightFlush(Card [] hand) {
-		FiveCardHand straight = evaluateStraight(hand);
 		
-		if(straight == FiveCardHand.STRAIGHT) {
+
+		FiveCardHand straight = evaluateStraight(hand);
+		if(straight == null) return null;
+		if(straight.getValue() == FiveCardHand.STRAIGHT.getValue()) {
 			
 			FiveCardHand flush = evaluateFlush(hand);
-			
-			if(flush == FiveCardHand.FLUSH) {
-				return FiveCardHand.STRAIGHT_FLUSH;
+			if(flush == null) return null;
+			if(flush.getValue() == FiveCardHand.FLUSH.getValue()) {
+				
+				FiveCardHand straightFlush = FiveCardHand.STRAIGHT_FLUSH;
+				straightFlush.setCardValue(flush.getCardValue());
+				return straightFlush;
 			}
 		}
 		return null;
@@ -351,6 +369,10 @@ public class HandEvaluator {
 		}
 		return null;
 	}
+	
+	
+	
+	/////////////////////Evaluate Draws
 	
 	private static DrawingHands evaluateFlushDraw(Card[] hand) { //return DrawingHands
 		int sameSuit = 1;
