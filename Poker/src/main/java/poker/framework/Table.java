@@ -421,7 +421,7 @@ public class Table {
 				winningPlayers.add(player);
 			}
 		}
-		
+				
 		return winningPlayers.toArray(new Player[0]);
 	}
 		
