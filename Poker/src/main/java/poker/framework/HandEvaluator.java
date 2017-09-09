@@ -267,7 +267,7 @@ public class HandEvaluator {
 	}
 	
 	private static FiveCardHand evaluateFullHouse(Card [] hand) {
-		
+		FiveCardHand fullHouse = FiveCardHand.FULL_HOUSE;
 		int numMatch = 1;
 		for(int j = 0; j < 3; j++) {
 			for(int i = 0; i < 2; i++) {
@@ -277,13 +277,13 @@ public class HandEvaluator {
 				}						
 			}
 			if(numMatch == 3) {
-				
 				// ONCE I DETERMINED 3-OF-A-KIND, I WANT TO CHECK IF EITHER LEADING CARDS
 				// OR ENDING CARDS ARE A PAIR
-				if (
-						(j==0 && hand[3].getRank() == hand[4].getRank()) ||
-						(j==2 && hand[0].getRank() == hand[1].getRank())) {
-							return FiveCardHand.FULL_HOUSE;					
+				// setCardValue with the 3rd card because that is always part of the higher cards
+				if ((j==0 && hand[3].getRank() == hand[4].getRank()) ||
+					(j==2 && hand[0].getRank() == hand[1].getRank())) {
+					fullHouse.setCardValue(hand[2].getRank().getValue());
+					return fullHouse;					
 				}
 			}
 			else
@@ -1118,5 +1118,4 @@ public class HandEvaluator {
 		return null;
 	}
 }
-
 
