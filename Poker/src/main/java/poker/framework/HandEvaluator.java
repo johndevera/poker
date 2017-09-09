@@ -742,6 +742,11 @@ public class HandEvaluator {
 	
 	///////// evaluating two hands which are same fivecardhand
 	
+	/**
+	 * This method gets the best five cards from seven cards
+	 * @param sevenHand
+	 * @return
+	 */
 	public static Card [] getBestFiveCards(Card [] sevenHand) {
 		//ABCDEFG
 		Arrays.sort(sevenHand, new CardRankComparator());
@@ -1066,6 +1071,59 @@ public class HandEvaluator {
 	
 	public static void sortDescending(Card [] cards) {
 		Arrays.sort(cards, new CardReverseComparator());
+	}
+	
+	/**
+	 * Gets the best hand(s) from list of hands.  A hand is 5-cards.
+	 * @param hands
+	 * @return
+	 */
+	public static List<Card []> getBestHand(List<Card []> hands) {
+		
+		if(hands == null || hands.size() == 0) {
+			throw new RuntimeException("This method was called with a null or empty list.  This should never happen!");
+		}
+		
+		for(Card [] hand : hands) {
+			if(hand == null || hand.length != 5) {
+				throw new RuntimeException("At least one hand passed into this method is null OR not five cards.");
+			}
+		}
+		
+		List<Card []> bestHands = new ArrayList<>();
+		
+		if(hands.size() == 1) {
+			bestHands.add(hands.get(0));
+			return bestHands;
+		}
+		
+		FiveCardHand winningHand = null;
+		
+		List<Card [] > winningHands = new ArrayList<>();
+		
+		for(Card [] hand : hands) {
+			
+			FiveCardHand fiveCardHand = HandEvaluator.evaluate(hand);
+			
+			if(winningHand == null || fiveCardHand.getValue() > winningHand.getValue()) {
+				
+				winningHand = fiveCardHand;
+				winningHands.clear();
+				winningHands.add(hand);
+			}
+			else if (fiveCardHand == winningHand) {
+				winningHands.add(hand);
+			}
+		}
+		
+		if(winningHands.size() == 1) {
+			bestHands.add(winningHands.get(0));
+			return bestHands;
+		}
+		
+		// Further compare the hands in winningHands against each other
+		
+		return null;
 	}
 }
 
