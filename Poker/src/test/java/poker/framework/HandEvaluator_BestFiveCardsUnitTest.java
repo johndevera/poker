@@ -2,9 +2,16 @@ package poker.framework;
 
 import org.junit.Test;
 
+import poker.framework.HandEvaluator.CardRankComparator;
+
 import static org.junit.Assert.*;
 
 import static poker.framework.Card.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class HandEvaluator_BestFiveCardsUnitTest {
 
@@ -509,6 +516,54 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
+		
+		assertTrue(areEqual);			
+		
+		System.out.println("PASS = " + areEqual + "\n");
+	}
+	
+	@Test
+	public void testGetBestHand() {
+		
+		System.out.println("testGetBestHand");
+		System.out.println("-------------");
+		
+		//Card [] five1 = {ACE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
+		//Card [] five2 = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
+		Card [] five3 = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
+		Card [] five4 = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
+		Card [] five5 = {JACK_OF_HEARTS, KING_OF_HEARTS, SEVEN_OF_HEARTS, NINE_OF_HEARTS, QUEEN_OF_HEARTS};
+		Card [] five6 = {JACK_OF_HEARTS, JACK_OF_SPADES, JACK_OF_CLUBS, JACK_OF_DIAMONDS, ACE_OF_DIAMONDS};
+		
+		
+		//Arrays.sort(five1, new CardRankComparator());
+		//Arrays.sort(five2, new CardRankComparator());
+		//Arrays.sort(five3, new CardRankComparator());
+		
+		
+		List<Card[]> hand = new ArrayList<>();
+		//hand.add(five1);
+		//hand.add(five2);
+		hand.add(five3);
+		hand.add(five4);
+		hand.add(five5);
+		hand.add(five6);
+		
+		Card [] bestFiveExpected = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
+		//Card [] bestFiveExpected = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};	
+		FiveCardHand fiveExp = HandEvaluator.evaluate(bestFiveExpected);
+		
+		List<Card[]> bestFiveActual = HandEvaluator.getBestHand(hand);
+		FiveCardHand fiveAct = HandEvaluator.evaluate(bestFiveActual.get(0));
+		
+		int numberOfWinners = bestFiveActual.size(); 
+		
+		System.out.println("Expected: " + fiveExp);
+		System.out.println("Actual: " + fiveAct);
+		System.out.println("NumWinners: " + numberOfWinners);
+		
+		boolean areEqual = 
+				areCardsEqual(bestFiveExpected, bestFiveActual.get(0));
 		
 		assertTrue(areEqual);			
 		

@@ -311,9 +311,8 @@ public class HandEvaluator {
 			 hand[2].getRank() == Rank.FOUR &&
 			 hand[3].getRank() == Rank.FIVE &&
 			 hand[4].getRank() == Rank.ACE)) {
-			System.out.println("YIPEE");
+
 			straight.setCardValue(rankValue4);
-			System.out.println(straight + " value-" + straight.getValue() + " cardValue-" + straight.getCardValue());
 
 			return straight;
 		}
@@ -757,6 +756,8 @@ public class HandEvaluator {
 	 */
 	public static Card [] getBestFiveCards(Card [] sevenHand) {
 		//ABCDEFG
+		
+		if (sevenHand.length == 7){
 		Arrays.sort(sevenHand, new CardRankComparator());
 		int numCards = sevenHand.length;
 		int value = 0;
@@ -815,6 +816,8 @@ public class HandEvaluator {
 			}
 		}
 		return eligibleFiveCards.get(eligibleFiveCards.size()-1);
+		}
+	return null;
 	}
 	
 	private static void validate(Card[] _this, Card[] _that, FiveCardHand handType) {
@@ -1086,7 +1089,7 @@ public class HandEvaluator {
 	 * @param hands
 	 * @return
 	 */
-	public static List<Card []> getBestHand(List<Card []> hands) {
+	static List<Card []> getBestHand(List<Card []> hands) {
 		
 		if(hands == null || hands.size() == 0) {
 			throw new RuntimeException("This method was called with a null or empty list.  This should never happen!");
