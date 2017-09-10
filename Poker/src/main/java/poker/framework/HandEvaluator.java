@@ -1130,7 +1130,7 @@ public class HandEvaluator {
 			boolean areEqual = areCardsEqual(winningHands.get(0), winningHands.get(1));
 			
 			if(!areEqual) {
-				Card[] higherKicker  = checkKicker(winningHands.get(0), winningHands.get(1));
+				Card[] higherKicker  = checkKickers(winningHands.get(0), winningHands.get(1));
 				if (higherKicker != null) {
 					winningHands.clear();
 					winningHands.add(higherKicker);
@@ -1141,6 +1141,39 @@ public class HandEvaluator {
 
 	}
 	
+	private static Card [] checkKickers(Card [] winnerOne, Card [] winnerTwo) {
+	
+		int size = winnerOne.length;
+		int differentCount = 0;
+		Boolean[] sameCards = new Boolean[size];
+		List<Card> differentCardsOne = new ArrayList<>();
+		List<Card> differentCardsTwo = new ArrayList<>();
+		//Card[] differentCardsOne = new Card[size];
+		//Card[] differentCardsTwo = new Card[size];
+		for (int i = 0; i < size; i++) {
+			if (winnerOne[i].getRank() == winnerTwo[i].getRank()) {
+				sameCards[i] = true;
+
+			}
+			else {
+				sameCards[i] = false;
+				differentCardsOne.add(winnerOne[i]);
+				differentCardsTwo.add(winnerTwo[i]);
+			}
+		}
+
+		Card[] diffCardsArrayOne = differentCardsOne.toArray(new Card[differentCardsOne.size()]);
+		Card[] diffCardsArrayTwo = differentCardsTwo.toArray(new Card[differentCardsTwo.size()]);
+		sortDescending(diffCardsArrayOne);
+		sortDescending(diffCardsArrayTwo);
+		if (diffCardsArrayOne[0].getRank().getValue() > diffCardsArrayTwo[0].getRank().getValue()) {
+			return winnerOne;
+		}
+		else {
+			return winnerTwo;
+		}
+	}
+	/*
 	private static Card [] checkKicker(Card [] winnerOne, Card [] winnerTwo) {
 		
 		
@@ -1191,6 +1224,7 @@ public class HandEvaluator {
 		
 		return null;
 	}
+	*/
 	private static boolean areCardsEqual(Card [] expected, Card [] actual) {	
 		return (
 				expected[0] == actual[0] &&
