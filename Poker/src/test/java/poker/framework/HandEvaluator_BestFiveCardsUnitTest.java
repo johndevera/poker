@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 import static poker.framework.Card.*;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -571,6 +571,62 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 				areCardsEqual(bestFiveExpected, bestFiveActual.get(0));
 		
 		assertTrue(areEqual);			
+		
+		System.out.println("PASS = " + areEqual + "\n");
+	}
+	
+	@Test
+	public void testGetBestHand_Pair() {
+		
+		System.out.println("testGetBestHand_Pair");
+		System.out.println("-------------");
+		
+		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, JACK_OF_SPADES, TEN_OF_HEARTS};
+		Card [] hand2 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		boolean areEqual = areCardsEqual(hand1, actual);
+		
+		assertTrue(areEqual);
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", hand1);
+		print("actual: ", actual);
+		
+		System.out.println("PASS = " + areEqual + "\n");
+	}
+	
+	@Test
+	public void testGetBestHand_TwoPair() {
+		
+		System.out.println("testGetBestHand_TwoPair");
+		System.out.println("-------------");
+		
+		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		boolean areEqual = areCardsEqual(hand1, actual);
+		
+		assertTrue(areEqual);
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", hand1);
+		print("actual: ", actual);
 		
 		System.out.println("PASS = " + areEqual + "\n");
 	}
