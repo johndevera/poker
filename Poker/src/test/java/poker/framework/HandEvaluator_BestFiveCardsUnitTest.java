@@ -37,9 +37,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -64,9 +63,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -91,9 +89,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -121,9 +118,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected1, bestFiveActual) || areCardsEqual(bestFiveExpected2, bestFiveActual);
 		
-		assertTrue(areEqual);		
-		
-		System.out.println("PASS = " + areEqual + "\n");
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
 	}
 	
 	@Test
@@ -148,9 +144,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
-		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
 	}
 	
 	@Test
@@ -175,9 +170,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
-		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
 	}
 	
 	@Test
@@ -203,12 +197,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 			boolean areEqual = 
 					areCardsEqual(bestFiveExpected, bestFiveActual);
 			
+			System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 			assertTrue(areEqual);			
-			
-			System.out.println("PASS = " + areEqual + "\n");
 		}
-		
-
 	}
 	
 	@Test
@@ -233,9 +224,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -264,8 +254,7 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 				areCardsEqual(bestFiveExpected1, bestFiveActual) || areCardsEqual(bestFiveExpected2, bestFiveActual);
 		
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 	}
 	
 	@Test
@@ -290,9 +279,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
-		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
 	}
 	
 	@Test
@@ -317,9 +305,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -344,9 +331,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -379,9 +365,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 				areCardsEqual(bestFiveExpected2, bestFiveActual) ||
 				areCardsEqual(bestFiveExpected3, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -406,9 +391,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -436,9 +420,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected1, bestFiveActual) || areCardsEqual(bestFiveExpected2, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -463,9 +446,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -490,9 +472,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -517,9 +498,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual);
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -570,9 +550,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		boolean areEqual = 
 				areCardsEqual(bestFiveExpected, bestFiveActual.get(0));
 		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);			
-		
-		System.out.println("PASS = " + areEqual + "\n");
 	}
 	
 	@Test
@@ -586,23 +565,25 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		
 		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
 		
-		//assertNotNull(bestHands);
-		//assertEquals(1, bestHands.size());
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
 		
 		Card [] actual = bestHands.get(0);
+		Card [] expected = hand2;
+
 		HandEvaluator.sortDescending(actual);
 		HandEvaluator.sortDescending(hand2);
-		boolean areEqual = areCardsEqual(hand2, actual);
-		
-		assertTrue(areEqual);
 		
 		print("hand1: ", hand1);
 		print("hand2: ", hand2);
 		System.out.println("---");
-		print("expected: ", hand2);
+		print("expected: ", expected);
 		print("actual: ", actual);
 		
-		System.out.println("PASS = " + areEqual + "\n");
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
 	}
 	
 	@Test
@@ -620,17 +601,117 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		assertEquals(1, bestHands.size());
 		
 		Card [] actual = bestHands.get(0);
-		boolean areEqual = areCardsEqual(hand1, actual);
-		
-		assertTrue(areEqual);
+		Card [] expected = hand1;
 		
 		print("hand1: ", hand1);
 		print("hand2: ", hand2);
 		System.out.println("---");
-		print("expected: ", hand1);
+		print("expected: ", expected);
 		print("actual: ", actual);
 		
-		System.out.println("PASS = " + areEqual + "\n");
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void testGetBestHand_TwoPair_ThreeHands() {
+		
+		System.out.println("testGetBestHand_TwoPair_ThreeHands");
+		System.out.println("-------------");
+		
+		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		Card [] hand3 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2, hand3));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand3;
+		boolean areEqual = areCardsEqual(expected, actual);
+				
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		print("hand3: ", hand3);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void testGetBestHand_Straight() {
+		
+		System.out.println("testGetBestHand_Straight");
+		System.out.println("-------------");
+		
+		Card [] hand1 = {ACE_OF_SPADES, TWO_OF_HEARTS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
+		Card [] hand2 = {SIX_OF_CLUBS, TWO_OF_HEARTS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
+		Card [] hand3 = {SIX_OF_CLUBS, SEVEN_OF_CLUBS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
+
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2, hand3));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand3;
+		boolean areEqual = areCardsEqual(expected, actual);
+				
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		print("hand3: ", hand3);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void testGetBestHand_Straight_Tie() {
+		
+		System.out.println("testGetBestHand_Straight_Tie");
+		System.out.println("-------------");
+		
+		Card [] hand1 = {ACE_OF_SPADES, TWO_OF_HEARTS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
+		Card [] hand2 = {ACE_OF_HEARTS, TWO_OF_HEARTS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
+
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(2, bestHands.size());
+		
+		Card [] actual1 = bestHands.get(0);
+		Card [] actual2 = bestHands.get(1);
+
+		Card [] expected1 = hand1;
+		Card [] expected2 = hand2;
+		
+		boolean areEqual1 = areCardsEqual(expected1, actual1);
+		boolean areEqual2 = areCardsEqual(expected2, actual2);
+				
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected1: ", expected1);
+		print("actual11: ", actual1);
+		System.out.println("---");
+		print("expected2: ", expected2);
+		print("actual2: ", actual2);
+		
+		boolean areEqual = areEqual1 && areEqual2;
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
 	}
 	
 	private boolean areCardsEqual(Card [] expected, Card [] actual) {
