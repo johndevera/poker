@@ -592,8 +592,10 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		System.out.println("testGetBestHand_TwoPair");
 		System.out.println("-------------");
 		
-		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
-		Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		//Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		//Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_DIAMONDS, QUEEN_OF_DIAMONDS, KING_OF_HEARTS};
+		Card [] hand2 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_DIAMONDS, JACK_OF_DIAMONDS, KING_OF_HEARTS};
 		
 		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
 		
@@ -638,6 +640,44 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		print("hand1: ", hand1);
 		print("hand2: ", hand2);
 		print("hand3: ", hand3);
+
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void testGetBestHand_TwoPair_SixHands() {
+		
+		System.out.println("testGetBestHand_TwoPair_SixHands");
+		System.out.println("-------------");
+		
+		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		Card [] hand3 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand4 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand5 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		Card [] hand6 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2, hand3, hand4, hand5, hand6));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand3;
+		boolean areEqual = areCardsEqual(expected, actual);
+				
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		print("hand3: ", hand3);
+		print("hand4: ", hand4); //same as 1
+		print("hand5: ", hand5); //same as 2
+		print("hand6: ", hand6); //same as 3
 		System.out.println("---");
 		print("expected: ", expected);
 		print("actual: ", actual);
@@ -654,21 +694,22 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		
 		Card [] hand1 = {ACE_OF_SPADES, TWO_OF_HEARTS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
 		Card [] hand2 = {SIX_OF_CLUBS, TWO_OF_HEARTS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
-		Card [] hand3 = {SIX_OF_CLUBS, SEVEN_OF_CLUBS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
+		//Card [] hand3 = {SIX_OF_CLUBS, SEVEN_OF_CLUBS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
 
 		
-		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2, hand3));
+		//List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2, hand3));
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
 		
 		assertNotNull(bestHands);
 		assertEquals(1, bestHands.size());
 		
 		Card [] actual = bestHands.get(0);
-		Card [] expected = hand3;
+		Card [] expected = hand2;
 		boolean areEqual = areCardsEqual(expected, actual);
 				
 		print("hand1: ", hand1);
 		print("hand2: ", hand2);
-		print("hand3: ", hand3);
+		//print("hand3: ", hand3);
 		System.out.println("---");
 		print("expected: ", expected);
 		print("actual: ", actual);

@@ -1125,35 +1125,33 @@ public class HandEvaluator {
 				winningHands.add(hand);
 			}
 		}
+		List<Card[]> topHand = new ArrayList<Card[]>();
 		System.out.println("We have number of winners: " + winningHands.size());
 		if(winningHands.size() > 1) {
-			boolean areEqual = areCardsEqual(winningHands.get(0), winningHands.get(1));
-			
-			if(!areEqual) {
-				Card[] higherKicker  = checkKickers(winningHands.get(0), winningHands.get(1));
-				if (higherKicker != null) {
-					winningHands.clear();
-					winningHands.add(higherKicker);
-				}
+				
+				topHand.add(winningHands.get(0));
+				for(int i = 1; i<winningHands.size(); i++) {
+					List<Card[]> higherKicker = null;
+					higherKicker  = checkKickers(topHand.get(0), winningHands.get(i), winningHand);
+					topHand = higherKicker;
+					}
 			}
-		}
-		return winningHands;
+		
+		return topHand;
 
 	}
 	
-	private static Card [] checkKickers(Card [] winnerOne, Card [] winnerTwo) {
+	private static List<Card []> checkKickers(Card [] winnerOne, Card [] winnerTwo, FiveCardHand fiveCardHand) {
 	
 		int size = winnerOne.length;
-		int differentCount = 0;
 		Boolean[] sameCards = new Boolean[size];
 		List<Card> differentCardsOne = new ArrayList<>();
 		List<Card> differentCardsTwo = new ArrayList<>();
-		//Card[] differentCardsOne = new Card[size];
-		//Card[] differentCardsTwo = new Card[size];
+		List<Card[]> winningCards = new ArrayList<>();
+
 		for (int i = 0; i < size; i++) {
 			if (winnerOne[i].getRank() == winnerTwo[i].getRank()) {
 				sameCards[i] = true;
-
 			}
 			else {
 				sameCards[i] = false;
@@ -1161,70 +1159,39 @@ public class HandEvaluator {
 				differentCardsTwo.add(winnerTwo[i]);
 			}
 		}
-
+		if(differentCardsOne.isEmpty() || differentCardsTwo.isEmpty()) {
+				winningCards.add(winnerOne);
+				winningCards.add(winnerTwo);
+				return winningCards;
+				
+		}
 		Card[] diffCardsArrayOne = differentCardsOne.toArray(new Card[differentCardsOne.size()]);
 		Card[] diffCardsArrayTwo = differentCardsTwo.toArray(new Card[differentCardsTwo.size()]);
 		sortDescending(diffCardsArrayOne);
 		sortDescending(diffCardsArrayTwo);
+		
+		//this handles the case of A2345 vs 23456 ----- TJQKA vs 9TJQK is already handled normally where A>T
+		if(fiveCardHand.getValue() == FiveCardHand.STRAIGHT.getValue()) {
+			if(diffCardsArrayOne[0].getRank().getValue() == FiveCardHand.STRAIGHT_A.getCardValue()) {
+				winningCards.add(winnerTwo);
+				return winningCards;
+			}
+			if(diffCardsArrayTwo[0].getRank().getValue() == FiveCardHand.STRAIGHT_A.getCardValue()) {
+				winningCards.add(winnerOne);
+				return winningCards;
+			}
+			
+		}
 		if (diffCardsArrayOne[0].getRank().getValue() > diffCardsArrayTwo[0].getRank().getValue()) {
-			return winnerOne;
+			winningCards.add(winnerOne);
+			return winningCards;
 		}
 		else {
-			return winnerTwo;
+			winningCards.add(winnerTwo);
+			return winningCards;
 		}
 	}
-	/*
-	private static Card [] checkKicker(Card [] winnerOne, Card [] winnerTwo) {
-		
-		
-		if(winnerOne[0] == winnerTwo[0]) {
-			if(winnerOne[1] == winnerTwo[1]) {
-				if(winnerOne[2] == winnerTwo[2]) {
-					if(winnerOne[3] == winnerTwo[3]) {
-						if(winnerOne[4] == winnerTwo[4]) {
-							return null;
-						}
-						else {
-							System.out.println("Differed on card " + 5 + " This-" + winnerOne[4] + " and That-" + winnerTwo[4]);
-							if(winnerOne[4].getRank().getValue() > winnerTwo[4].getRank().getValue()) {
-								return winnerOne;
-							}
-							else return winnerTwo;
-						}
-					}
-					else {
-						System.out.println("Differed on card " + 4 + " This-" + winnerOne[3] + " and That-" + winnerTwo[3]);
-						if(winnerOne[3].getRank().getValue() > winnerTwo[3].getRank().getValue()) {
-							return winnerOne;
-						}
-						else return winnerTwo;
-					}
-				}//need to check middle card for two pair issue
-				else {
-					System.out.println("Differed on card " + 3 + " This-" + winnerOne[2] + " and That-" + winnerTwo[2]);
-					if(winnerOne[1] == winnerTwo[1] && winnerOne[3].getRank().getValue() > winnerTwo[3].getRank().getValue()) {
-						return winnerOne;
-					}
-					else if(winnerOne[3] == winnerTwo[3] && winnerOne[1].getRank().getValue() > winnerTwo[1].getRank().getValue()) {
-						return winnerOne;
-					}
-					else return winnerTwo;
-				}
-			}
-			else {
-				System.out.println("Differed on card " + 2 + " This-" + winnerOne[1] + " and That-" + winnerTwo[1]);
-				if(winnerOne[1].getRank().getValue() > winnerTwo[1].getRank().getValue()) {
-					return winnerOne;
-				}
-				else return winnerTwo;
-			}
-		}
-		//else
-		//don't need to compare card 0. If card0 is the same, then they just share a high card, at which u check card 2 etc.
-		
-		return null;
-	}
-	*/
+
 	private static boolean areCardsEqual(Card [] expected, Card [] actual) {	
 		return (
 				expected[0] == actual[0] &&
