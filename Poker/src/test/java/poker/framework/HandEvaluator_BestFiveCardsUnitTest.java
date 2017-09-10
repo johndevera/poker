@@ -183,11 +183,8 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	
 		Card [] bestFiveExpected = {TWO_OF_HEARTS, FIVE_OF_CLUBS, ACE_OF_DIAMONDS, FOUR_OF_SPADES, THREE_OF_CLUBS};
 		
-		//System.out.println("WOWZA");
-		
 		Card [] bestFiveActual = HandEvaluator.getBestFiveCards(sevenCards);
-		
-		System.out.println("WOW");
+
 		if(bestFiveActual != null) {
 			HandEvaluator.sortDescending(bestFiveExpected);
 			HandEvaluator.sortDescending(bestFiveActual);

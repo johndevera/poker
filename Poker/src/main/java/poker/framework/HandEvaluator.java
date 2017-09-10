@@ -300,12 +300,6 @@ public class HandEvaluator {
 		int rankValue3 = hand[3].getRank().getValue();
 		int rankValue4 = hand[4].getRank().getValue();
 		
-		System.out.println(hand[0]);
-		System.out.println(hand[1]);
-		System.out.println(hand[2]);
-		System.out.println(hand[3]);
-		System.out.println(hand[4]);
-		
 		FiveCardHand straight = FiveCardHand.STRAIGHT;
 		if(((rankValue0 == rankValue1 - 1) &&
 			(rankValue1 == rankValue2 - 1) &&
