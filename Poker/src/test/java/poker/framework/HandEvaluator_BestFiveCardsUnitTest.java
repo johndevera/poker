@@ -1,6 +1,8 @@
 package poker.framework;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 
 
@@ -13,12 +15,13 @@ import java.util.Arrays;
 import java.util.List;
 
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HandEvaluator_BestFiveCardsUnitTest {
 
 	@Test
-	public void testHighCard_1() {
+	public void test_01_HighCard_1() {
 		
-		System.out.println("testHighCard_1");
+		System.out.println("test_01_HighCard_1");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {ACE_OF_HEARTS, NINE_OF_SPADES, SIX_OF_HEARTS, SEVEN_OF_HEARTS, EIGHT_OF_HEARTS, JACK_OF_CLUBS, FOUR_OF_CLUBS};
@@ -42,9 +45,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testOnePair_1() {
+	public void test_02_OnePair_1() {
 		
-		System.out.println("testOnePair_1");
+		System.out.println("test_02_OnePair_1");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {QUEEN_OF_CLUBS, FIVE_OF_HEARTS, QUEEN_OF_DIAMONDS, SEVEN_OF_HEARTS, NINE_OF_SPADES, THREE_OF_CLUBS, KING_OF_HEARTS};
@@ -68,9 +71,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testOnePair_2() {
+	public void test_03_OnePair_2() {
 		
-		System.out.println("testOnePair_2");
+		System.out.println("test_03_OnePair_2");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {THREE_OF_SPADES, FIVE_OF_HEARTS, QUEEN_OF_DIAMONDS, SEVEN_OF_HEARTS, NINE_OF_SPADES, THREE_OF_CLUBS, KING_OF_HEARTS};
@@ -94,9 +97,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testTwoPair_AABBCCx() {
+	public void test_04_TwoPair_AABBCCx() {
 		
-		System.out.println("testTwoPair_AABBCCx");
+		System.out.println("test_04_TwoPair_AABBCCx");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {ACE_OF_CLUBS, KING_OF_DIAMONDS, ACE_OF_HEARTS, KING_OF_CLUBS, SEVEN_OF_SPADES, THREE_OF_CLUBS, SEVEN_OF_HEARTS};
@@ -123,9 +126,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testTwoPair_QQ77K93() {
+	public void test_05_TwoPair_QQ77K93() {
 		
-		System.out.println("testTwoPair_QQ77K93");
+		System.out.println("test_05_TwoPair_QQ77K93");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {QUEEN_OF_CLUBS, SEVEN_OF_DIAMONDS, QUEEN_OF_DIAMONDS, SEVEN_OF_HEARTS, NINE_OF_SPADES, THREE_OF_CLUBS, KING_OF_HEARTS};
@@ -149,9 +152,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testTrips_1() {
+	public void test_06_Trips_1() {
 		
-		System.out.println("testTrips_1");
+		System.out.println("test_06_Trips_1");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {FOUR_OF_DIAMONDS, ACE_OF_DIAMONDS, EIGHT_OF_SPADES, FOUR_OF_SPADES, FOUR_OF_HEARTS, NINE_OF_CLUBS, JACK_OF_CLUBS};
@@ -175,9 +178,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testStraight_low() {
+	public void test_07_Straight_low() {
 		
-		System.out.println("testStraight_low");
+		System.out.println("test_07_Straight_low");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {QUEEN_OF_CLUBS, ACE_OF_DIAMONDS, QUEEN_OF_DIAMONDS, TWO_OF_HEARTS, FOUR_OF_SPADES, THREE_OF_CLUBS, FIVE_OF_CLUBS};
@@ -203,9 +206,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testStraight_middle() {
+	public void test_08_Straight_middle() {
 		
-		System.out.println("testStraight_middle");
+		System.out.println("test_08_Straight_middle");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {NINE_OF_DIAMONDS, ACE_OF_DIAMONDS, SEVEN_OF_CLUBS, SIX_OF_HEARTS, KING_OF_DIAMONDS, TEN_OF_HEARTS, EIGHT_OF_DIAMONDS};
@@ -229,9 +232,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testStraight_high() {
+	public void test_09_Straight_high() {
 		
-		System.out.println("testStraight_high");
+		System.out.println("test_09_Straight_high");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {KING_OF_CLUBS, ACE_OF_DIAMONDS, KING_OF_SPADES, JACK_OF_SPADES, KING_OF_HEARTS, TEN_OF_HEARTS, QUEEN_OF_DIAMONDS};
@@ -258,9 +261,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testFlush_1() {
+	public void test_10_Flush_1() {
 		
-		System.out.println("testFlush_1");
+		System.out.println("test_10_Flush_1");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {FOUR_OF_DIAMONDS, ACE_OF_DIAMONDS, KING_OF_DIAMONDS, JACK_OF_SPADES, NINE_OF_DIAMONDS, ACE_OF_HEARTS, JACK_OF_DIAMONDS};
@@ -284,9 +287,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testFlush_2() {
+	public void test_11_Flush_2() {
 		
-		System.out.println("testFlush_2");
+		System.out.println("test_11_Flush_2");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {FOUR_OF_DIAMONDS, ACE_OF_DIAMONDS, KING_OF_DIAMONDS, QUEEN_OF_DIAMONDS, NINE_OF_DIAMONDS, SIX_OF_DIAMONDS, JACK_OF_DIAMONDS};
@@ -310,9 +313,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testFlush_3() {
+	public void test_12_Flush_3() {
 		
-		System.out.println("testFlush_3");
+		System.out.println("test_12_Flush_3");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {FOUR_OF_DIAMONDS, ACE_OF_DIAMONDS, KING_OF_DIAMONDS, ACE_OF_SPADES, KING_OF_HEARTS, SIX_OF_DIAMONDS, JACK_OF_DIAMONDS};
@@ -336,9 +339,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testFullHouse_1() {
+	public void test_13_FullHouse_1() {
 		
-		System.out.println("testFullHouse_1");
+		System.out.println("test_13_FullHouse_1");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {FOUR_OF_DIAMONDS, ACE_OF_DIAMONDS, ACE_OF_HEARTS, ACE_OF_SPADES, KING_OF_HEARTS, FOUR_OF_SPADES, FOUR_OF_CLUBS};
@@ -370,9 +373,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testFullHouse_2() {
+	public void test_14_FullHouse_2() {
 		
-		System.out.println("testFullHouse_2");
+		System.out.println("test_14_FullHouse_2");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {FOUR_OF_DIAMONDS, ACE_OF_DIAMONDS, ACE_OF_HEARTS, KING_OF_CLUBS, KING_OF_HEARTS, FOUR_OF_SPADES, FOUR_OF_CLUBS};
@@ -396,9 +399,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testFourOfAKind() {
+	public void test_15_FourOfAKind() {
 		
-		System.out.println("testFourOfAKind");
+		System.out.println("test_15_FourOfAKind");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {JACK_OF_HEARTS, ACE_OF_DIAMONDS, JACK_OF_SPADES, ACE_OF_CLUBS, JACK_OF_CLUBS, ACE_OF_SPADES, JACK_OF_DIAMONDS};
@@ -425,9 +428,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testStraightFlush() {
+	public void test_16_StraightFlush() {
 		
-		System.out.println("testStraightFlush_1");
+		System.out.println("test_16_StraightFlush");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {JACK_OF_HEARTS, NINE_OF_CLUBS, NINE_OF_SPADES, NINE_OF_HEARTS, QUEEN_OF_HEARTS, EIGHT_OF_HEARTS, TEN_OF_HEARTS};
@@ -451,9 +454,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testStraightFlush_2() {
+	public void test_17_StraightFlush_2() {
 		
-		System.out.println("testStraightFlush_2");
+		System.out.println("test_17_StraightFlush_2");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {JACK_OF_HEARTS, KING_OF_HEARTS, SEVEN_OF_HEARTS, NINE_OF_HEARTS, QUEEN_OF_HEARTS, EIGHT_OF_HEARTS, TEN_OF_HEARTS};
@@ -477,9 +480,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testRoyalFlush() {
+	public void test_18_RoyalFlush() {
 		
-		System.out.println("testRoyalFlush");
+		System.out.println("test_18_RoyalFlush");
 		System.out.println("-------------");
 		
 		Card [] sevenCards = {JACK_OF_HEARTS, KING_OF_HEARTS, ACE_OF_HEARTS, NINE_OF_HEARTS, QUEEN_OF_HEARTS, TWO_OF_HEARTS, TEN_OF_HEARTS};
@@ -503,9 +506,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testGetBestHand() {
+	public void test_19_GetBestHand() {
 		
-		System.out.println("testGetBestHand");
+		System.out.println("test_19_GetBestHand");
 		System.out.println("-------------");
 		
 		//Card [] five1 = {ACE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
@@ -555,9 +558,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testGetBestHand_Pair() {
+	public void test_20_GetBestHand_Pair() {
 		
-		System.out.println("testGetBestHand_Pair");
+		System.out.println("test_20_GetBestHand_Pair");
 		System.out.println("-------------");
 		
 		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, JACK_OF_SPADES, TEN_OF_HEARTS};
@@ -587,9 +590,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testGetBestHand_TwoPair() {
+	public void test_21_GetBestHand_TwoPair() {
 		
-		System.out.println("testGetBestHand_TwoPair");
+		System.out.println("test_21_GetBestHand_TwoPair");
 		System.out.println("-------------");
 		
 		//Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
@@ -618,9 +621,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testGetBestHand_TwoPair_ThreeHands() {
+	public void test_22_GetBestHand_TwoPair_ThreeHands() {
 		
-		System.out.println("testGetBestHand_TwoPair_ThreeHands");
+		System.out.println("test_22_GetBestHand_TwoPair_ThreeHands");
 		System.out.println("-------------");
 		
 		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
@@ -650,30 +653,30 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testGetBestHand_TwoPair_SixHands() {
+	public void test_23_GetBestHand_TwoPair_4ofTheSAME() {
 		
-		System.out.println("testGetBestHand_TwoPair_SixHands");
+		System.out.println("test_23_GetBestHand_TwoPair_4ofTheSAME");
 		System.out.println("-------------");
 		
-		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
-		Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		//Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		//Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
 		Card [] hand3 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
-		Card [] hand4 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
-		Card [] hand5 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		Card [] hand4 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand5 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
 		Card [] hand6 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
 
 		
-		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2, hand3, hand4, hand5, hand6));
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList( hand3, hand4, hand5, hand6));
 		
 		assertNotNull(bestHands);
-		assertEquals(1, bestHands.size());
+		assertEquals(4, bestHands.size());
 		
 		Card [] actual = bestHands.get(0);
 		Card [] expected = hand3;
 		boolean areEqual = areCardsEqual(expected, actual);
 				
-		print("hand1: ", hand1);
-		print("hand2: ", hand2);
+		//print("hand1: ", hand1);
+		//print("hand2: ", hand2);
 		print("hand3: ", hand3);
 		print("hand4: ", hand4); //same as 1
 		print("hand5: ", hand5); //same as 2
@@ -687,9 +690,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testGetBestHand_Straight() {
+	public void test_24_GetBestHand_Straight() {
 		
-		System.out.println("testGetBestHand_Straight");
+		System.out.println("test_24_GetBestHand_Straight");
 		System.out.println("-------------");
 		
 		Card [] hand1 = {ACE_OF_SPADES, TWO_OF_HEARTS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
@@ -719,9 +722,9 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 	}
 	
 	@Test
-	public void testGetBestHand_Straight_Tie() {
+	public void test_25_GetBestHand_Straight_Tie() {
 		
-		System.out.println("testGetBestHand_Straight_Tie");
+		System.out.println("test_25_GetBestHand_Straight_Tie");
 		System.out.println("-------------");
 		
 		Card [] hand1 = {ACE_OF_SPADES, TWO_OF_HEARTS, THREE_OF_SPADES, FIVE_OF_DIAMONDS, FOUR_OF_HEARTS};
@@ -754,6 +757,127 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
 		assertTrue(areEqual);
 	}
+	@Test
+	public void test_26_GetBestHand_TwoPair_4Hands2Ties() {
+		
+		System.out.println("test_26_GetBestHand_TwoPair_4Hands2Ties");
+		System.out.println("-------------");
+		
+		//Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		//Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		Card [] hand3 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand4 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand5 = {KING_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand6 = {KING_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList( hand3, hand4, hand5, hand6));
+		
+		assertNotNull(bestHands);
+		assertEquals(2, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand3;
+		boolean areEqual = areCardsEqual(expected, actual);
+				
+		//print("hand1: ", hand1);
+		//print("hand2: ", hand2);
+		print("hand3: ", hand3);
+		print("hand4: ", hand4); //same as 1
+		print("hand5: ", hand5); //same as 2
+		print("hand6: ", hand6); //same as 3
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_27_GetBestHand_TwoPair_6Hands3Ties() {
+		
+		System.out.println("test_27_GetBestHand_TwoPair_6Hands3Ties");
+		System.out.println("-------------");
+		
+		//Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		//Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		Card [] hand3 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand4 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand5 = {KING_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand6 = {KING_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand7 = {QUEEN_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand8 = {QUEEN_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList( hand3, hand4, hand5, hand6, hand7, hand8));
+		
+		assertNotNull(bestHands);
+		assertEquals(2, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand3;
+		boolean areEqual = areCardsEqual(expected, actual);
+				
+		//print("hand1: ", hand1);
+		//print("hand2: ", hand2);
+		print("hand3: ", hand3);
+		print("hand4: ", hand4);
+		print("hand5: ", hand5);
+		print("hand6: ", hand6);
+		print("hand7: ", hand5);
+		print("hand8: ", hand6);
+		
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_28_GetBestHand_TwoPair_6Hands2Ties() {
+		
+		System.out.println("test_28_GetBestHand_TwoPair_6Hands2Ties");
+		System.out.println("-------------");
+		
+		//Card [] hand1 = {ACE_OF_SPADES, ACE_OF_CLUBS, QUEEN_OF_DIAMONDS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		//Card [] hand2 = {KING_OF_CLUBS, KING_OF_SPADES, THREE_OF_DIAMONDS, THREE_OF_HEARTS, TWO_OF_HEARTS};
+		Card [] hand3 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand4 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand5 = {ACE_OF_SPADES, ACE_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand6 = {QUEEN_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand7 = {QUEEN_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		Card [] hand8 = {QUEEN_OF_SPADES, QUEEN_OF_CLUBS, KING_OF_HEARTS, TEN_OF_DIAMONDS, TEN_OF_HEARTS};
+		
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList( hand3, hand4, hand5, hand6, hand7, hand8));
+		
+		assertNotNull(bestHands);
+		assertEquals(3, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand3;
+		boolean areEqual = areCardsEqual(expected, actual);
+				
+		//print("hand1: ", hand1);
+		//print("hand2: ", hand2);
+		print("hand3: ", hand3);
+		print("hand4: ", hand4);
+		print("hand5: ", hand5);
+		print("hand6: ", hand6);
+		print("hand7: ", hand7);
+		print("hand8: ", hand8);
+		
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
 	
 	private boolean areCardsEqual(Card [] expected, Card [] actual) {
 		return (

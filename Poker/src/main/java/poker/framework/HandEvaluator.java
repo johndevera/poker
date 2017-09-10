@@ -1129,12 +1129,32 @@ public class HandEvaluator {
 		System.out.println("We have number of winners: " + winningHands.size());
 		if(winningHands.size() > 1) {
 				
+				
+				//topHand.add(winningHands.get(1));
+				List<Card[]> higherKicker = null;
+				List<Card[]> oldPair = new ArrayList<>(2);
+				
 				topHand.add(winningHands.get(0));
+				//Assume old pair COULD be the first card, repeated.
+				oldPair.add(winningHands.get(0));
+				oldPair.add(winningHands.get(0));
 				for(int i = 1; i<winningHands.size(); i++) {
-					List<Card[]> higherKicker = null;
+					
 					higherKicker  = checkKickers(topHand.get(0), winningHands.get(i), winningHand);
-					topHand = higherKicker;
+					
+
+					if(higherKicker.size() == 2) {
+						topHand.add(higherKicker.get(1));
+						oldPair = higherKicker;
 					}
+					else if(oldPair.get(0) == higherKicker.get(0)) {
+						//do nothing here. This is mainly good for comparing sets of tied hands
+					}
+					else {
+					topHand.clear();
+					topHand.addAll(higherKicker);
+					}
+				}
 			}
 		
 		return topHand;
