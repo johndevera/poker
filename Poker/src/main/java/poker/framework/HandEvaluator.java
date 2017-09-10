@@ -1130,16 +1130,18 @@ public class HandEvaluator {
 			boolean areEqual = areCardsEqual(winningHands.get(0), winningHands.get(1));
 			
 			if(!areEqual) {
-				Card[] higherKicker = getKickers(winningHands.get(0), winningHands.get(1));
-				winningHands.clear();
-				winningHands.add(higherKicker);
+				Card[] higherKicker  = checkKicker(winningHands.get(0), winningHands.get(1));
+				if (higherKicker != null) {
+					winningHands.clear();
+					winningHands.add(higherKicker);
+				}
 			}
 		}
 		return winningHands;
 
 	}
 	
-	private static Card [] getKickers(Card [] winnerOne, Card [] winnerTwo) {
+	private static Card [] checkKicker(Card [] winnerOne, Card [] winnerTwo) {
 		
 		
 		if(winnerOne[0] == winnerTwo[0]) {
