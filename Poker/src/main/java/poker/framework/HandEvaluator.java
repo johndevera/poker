@@ -1,11 +1,14 @@
 package poker.framework;
 
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import junit.framework.Assert;
 
 //import poker.framework.HandEvaluator.CardRankComparator;
 
@@ -58,7 +61,7 @@ public class HandEvaluator {
 						}
 						else {
 								FiveCardHand highCardHand = evaluateHighCard(hand);
-								bestHands.add(highCardHand);
+								bestHands.add(highCarimport static org.junit.Assert.*;dHand);
 							}
 						}
 					}
@@ -756,8 +759,6 @@ public class HandEvaluator {
 	 */
 	public static Card [] getBestFiveCards(Card [] sevenHand) {
 		//ABCDEFG
-		
-		if (sevenHand.length == 7){
 		Arrays.sort(sevenHand, new CardRankComparator());
 		int numCards = sevenHand.length;
 		int value = 0;
@@ -816,8 +817,6 @@ public class HandEvaluator {
 			}
 		}
 		return eligibleFiveCards.get(eligibleFiveCards.size()-1);
-		}
-	return null;
 	}
 	
 	private static void validate(Card[] _this, Card[] _that, FiveCardHand handType) {
@@ -1089,7 +1088,7 @@ public class HandEvaluator {
 	 * @param hands
 	 * @return
 	 */
-	static List<Card []> getBestHand(List<Card []> hands) {
+	public static List<Card []> getBestHand(List<Card []> hands) {
 		
 		if(hands == null || hands.size() == 0) {
 			throw new RuntimeException("This method was called with a null or empty list.  This should never happen!");
@@ -1126,15 +1125,80 @@ public class HandEvaluator {
 				winningHands.add(hand);
 			}
 		}
-		
-		if(winningHands.size() == 1) {
-			bestHands.add(winningHands.get(0));
-			return bestHands;
+		System.out.println("We have number of winners: " + winningHands.size());
+		if(winningHands.size() > 1) {
+			boolean areEqual = areCardsEqual(winningHands.get(0), winningHands.get(1));
+			
+			if(!areEqual) {
+				Card[] higherKicker = getKickers(winningHands.get(0), winningHands.get(1));
+				winningHands.clear();
+				winningHands.add(higherKicker);
+			}
 		}
+		return winningHands;
+
+	}
+	
+	private static Card [] getKickers(Card [] winnerOne, Card [] winnerTwo) {
 		
-		// Further compare the hands in winningHands against each other
+		
+		if(winnerOne[0] == winnerTwo[0]) {
+			if(winnerOne[1] == winnerTwo[1]) {
+				if(winnerOne[2] == winnerTwo[2]) {
+					if(winnerOne[3] == winnerTwo[3]) {
+						if(winnerOne[4] == winnerTwo[4]) {
+							return null;
+						}
+						else {
+							System.out.println("Differed on card " + 5 + " This-" + winnerOne[4] + " and That-" + winnerTwo[4]);
+							if(winnerOne[4].getRank().getValue() > winnerTwo[4].getRank().getValue()) {
+								return winnerOne;
+							}
+							else return winnerTwo;
+						}
+					}
+					else {
+						System.out.println("Differed on card " + 4 + " This-" + winnerOne[3] + " and That-" + winnerTwo[3]);
+						if(winnerOne[3].getRank().getValue() > winnerTwo[3].getRank().getValue()) {
+							return winnerOne;
+						}
+						else return winnerTwo;
+					}
+				}//need to check middle card for two pair issue
+				else {
+					System.out.println("Differed on card " + 3 + " This-" + winnerOne[2] + " and That-" + winnerTwo[2]);
+					if(winnerOne[1] == winnerTwo[1] && winnerOne[3].getRank().getValue() > winnerTwo[3].getRank().getValue()) {
+						return winnerOne;
+					}
+					else if(winnerOne[3] == winnerTwo[3] && winnerOne[1].getRank().getValue() > winnerTwo[1].getRank().getValue()) {
+						return winnerOne;
+					}
+					else return winnerTwo;
+				}
+			}
+			else {
+				System.out.println("Differed on card " + 2 + " This-" + winnerOne[1] + " and That-" + winnerTwo[1]);
+				if(winnerOne[1].getRank().getValue() > winnerTwo[1].getRank().getValue()) {
+					return winnerOne;
+				}
+				else return winnerTwo;
+			}
+		}
+		//else
+		//don't need to compare card 0. If card0 is the same, then they just share a high card, at which u check card 2 etc.
 		
 		return null;
 	}
+	private static boolean areCardsEqual(Card [] expected, Card [] actual) {	
+		return (
+				expected[0] == actual[0] &&
+				expected[1] == actual[1] &&
+				expected[2] == actual[2] &&
+				expected[3] == actual[3] &&
+				expected[4] == actual[4]
+				);
+				
+	}
+	
 }
 

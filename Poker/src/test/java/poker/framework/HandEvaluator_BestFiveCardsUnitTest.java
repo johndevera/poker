@@ -2,14 +2,14 @@ package poker.framework;
 
 import org.junit.Test;
 
-import poker.framework.HandEvaluator.CardRankComparator;
+
 
 import static org.junit.Assert.*;
 
 import static poker.framework.Card.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 
@@ -530,11 +530,13 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		
 		//Card [] five1 = {ACE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
 		//Card [] five2 = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
-		Card [] five3 = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
-		Card [] five4 = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
-		Card [] five5 = {JACK_OF_HEARTS, KING_OF_HEARTS, SEVEN_OF_HEARTS, NINE_OF_HEARTS, QUEEN_OF_HEARTS};
-		Card [] five6 = {JACK_OF_HEARTS, JACK_OF_SPADES, JACK_OF_CLUBS, JACK_OF_DIAMONDS, ACE_OF_DIAMONDS};
-		
+		//Card [] five3 = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
+		//Card [] five4 = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
+		//Card [] five5 = {JACK_OF_HEARTS, KING_OF_HEARTS, SEVEN_OF_HEARTS, NINE_OF_HEARTS, QUEEN_OF_HEARTS};
+		//Card [] five6 = {JACK_OF_HEARTS, JACK_OF_SPADES, JACK_OF_CLUBS, JACK_OF_DIAMONDS, ACE_OF_DIAMONDS};
+		//Card [] five7 = {JACK_OF_HEARTS, JACK_OF_SPADES, JACK_OF_CLUBS, JACK_OF_DIAMONDS, KING_OF_DIAMONDS};
+		Card [] five8 = {ACE_OF_HEARTS, ACE_OF_SPADES, KING_OF_CLUBS, QUEEN_OF_DIAMONDS, QUEEN_OF_DIAMONDS};
+		Card [] five9 = {ACE_OF_HEARTS, ACE_OF_SPADES, KING_OF_CLUBS, KING_OF_DIAMONDS, QUEEN_OF_DIAMONDS};
 		
 		//Arrays.sort(five1, new CardRankComparator());
 		//Arrays.sort(five2, new CardRankComparator());
@@ -544,12 +546,15 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		List<Card[]> hand = new ArrayList<>();
 		//hand.add(five1);
 		//hand.add(five2);
-		hand.add(five3);
-		hand.add(five4);
-		hand.add(five5);
-		hand.add(five6);
+		//hand.add(five3);
+		//hand.add(five4);
+		//hand.add(five5);
+		//hand.add(five6);
+		//hand.add(five7);
+		hand.add(five8);
+		hand.add(five9);
 		
-		Card [] bestFiveExpected = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};
+		Card [] bestFiveExpected = {ACE_OF_HEARTS, ACE_OF_SPADES, KING_OF_CLUBS, KING_OF_DIAMONDS, QUEEN_OF_DIAMONDS};
 		//Card [] bestFiveExpected = {NINE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS};	
 		FiveCardHand fiveExp = HandEvaluator.evaluate(bestFiveExpected);
 		
