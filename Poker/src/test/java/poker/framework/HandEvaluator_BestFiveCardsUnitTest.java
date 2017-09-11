@@ -878,6 +878,238 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		assertTrue(areEqual);
 	}
 	
+	@Test
+	public void test_29_GetBestHand_Flush() {
+		
+		System.out.println("test_29_GetBestHand_Flush");
+		System.out.println("-------------");
+
+		Card [] hand1 = {ACE_OF_SPADES, QUEEN_OF_SPADES, TEN_OF_SPADES, FIVE_OF_SPADES, THREE_OF_SPADES};
+		Card [] hand2 = {KING_OF_SPADES, QUEEN_OF_SPADES, TEN_OF_SPADES, NINE_OF_SPADES, EIGHT_OF_SPADES};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand1;
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_30_GetBestHand_Flush() {
+		
+		System.out.println("test_30_GetBestHand_Flush");
+		System.out.println("-------------");
+
+		Card [] hand1 = {ACE_OF_SPADES, QUEEN_OF_SPADES, TEN_OF_SPADES, NINE_OF_SPADES, THREE_OF_SPADES};
+		Card [] hand2 = {ACE_OF_SPADES, QUEEN_OF_SPADES, TEN_OF_SPADES, NINE_OF_SPADES, TWO_OF_SPADES};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand1;
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_31_GetBestHand_FullHouse_1() {
+		
+		System.out.println("test_31_GetBestHand_FullHouse_1");
+		System.out.println("-------------");
+
+		Card [] hand1 = {JACK_OF_HEARTS, JACK_OF_DIAMONDS, THREE_OF_HEARTS, THREE_OF_DIAMONDS, THREE_OF_SPADES};
+		Card [] hand2 = {ACE_OF_SPADES, ACE_OF_HEARTS, TWO_OF_CLUBS, TWO_OF_DIAMONDS, TWO_OF_SPADES};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand1;
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_32_GetBestHand_FullHouse_2() {
+		
+		System.out.println("test_32_GetBestHand_FullHouse_2");
+		System.out.println("-------------");
+
+		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_HEARTS, THREE_OF_HEARTS, THREE_OF_DIAMONDS, THREE_OF_SPADES};
+		Card [] hand2 = {ACE_OF_SPADES, ACE_OF_HEARTS, TWO_OF_CLUBS, TWO_OF_DIAMONDS, TWO_OF_SPADES};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand1;
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_33_GetBestHand_FullHouse_3() {
+		
+		System.out.println("test_33_GetBestHand_FullHouse_3");
+		System.out.println("-------------");
+
+		Card [] hand1 = {ACE_OF_SPADES, ACE_OF_HEARTS, ACE_OF_DIAMONDS, SEVEN_OF_HEARTS, SEVEN_OF_CLUBS};
+		Card [] hand2 = {ACE_OF_SPADES, ACE_OF_HEARTS, ACE_OF_DIAMONDS, NINE_OF_CLUBS, NINE_OF_SPADES};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand2;
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_34_GetBestHand_Straight_Flush_1() {
+		
+		System.out.println("test_34_GetBestHand_Straight_Flush_1");
+		System.out.println("-------------");
+
+		Card [] hand1 = {FOUR_OF_SPADES, FIVE_OF_SPADES, SIX_OF_SPADES, SEVEN_OF_SPADES, EIGHT_OF_SPADES};
+		Card [] hand2 = {FIVE_OF_SPADES, SIX_OF_SPADES, SEVEN_OF_SPADES, EIGHT_OF_SPADES, NINE_OF_SPADES};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand2;
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_34_GetBestHand_Straight_Flush_2_vs_Straight() {
+		
+		System.out.println("test_34_GetBestHand_Straight_Flush_1");
+		System.out.println("-------------");
+
+		Card [] hand1 = {FOUR_OF_SPADES, FIVE_OF_SPADES, SIX_OF_SPADES, SEVEN_OF_SPADES, EIGHT_OF_SPADES};
+		Card [] hand2 = {FIVE_OF_SPADES, SIX_OF_SPADES, SEVEN_OF_SPADES, EIGHT_OF_SPADES, NINE_OF_CLUBS};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand2;
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
+	@Test
+	public void test_35_GetBestHand_RoyalFlush_vs_FourOfAKind() {
+		
+		System.out.println("test_35_GetBestHand_RoyalFlush_vs_FourOfAKind");
+		System.out.println("-------------");
+
+		Card [] hand1 = {KING_OF_HEARTS, JACK_OF_HEARTS, QUEEN_OF_HEARTS, TEN_OF_HEARTS, ACE_OF_HEARTS};
+		Card [] hand2 = {FIVE_OF_SPADES, FIVE_OF_CLUBS, ACE_OF_DIAMONDS, FIVE_OF_HEARTS, FIVE_OF_DIAMONDS};
+		
+		List<Card []> bestHands = HandEvaluator.getBestHand(Arrays.asList(hand1, hand2));
+		
+		assertNotNull(bestHands);
+		assertEquals(1, bestHands.size());
+		
+		Card [] actual = bestHands.get(0);
+		Card [] expected = hand1;
+		
+		print("hand1: ", hand1);
+		print("hand2: ", hand2);
+		System.out.println("---");
+		print("expected: ", expected);
+		print("actual: ", actual);
+		
+		boolean areEqual = areCardsEqual(expected, actual);
+		
+		System.out.println((areEqual) ? "PASS\n" : "FAIL\n");
+		assertTrue(areEqual);
+	}
+	
 	
 	private boolean areCardsEqual(Card [] expected, Card [] actual) {
 		return (
