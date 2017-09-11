@@ -1067,7 +1067,7 @@ public class HandEvaluator_BestFiveCardsUnitTest {
 		assertEquals(1, bestHands.size());
 		
 		Card [] actual = bestHands.get(0);
-		Card [] expected = hand2;
+		Card [] expected = hand1;
 		
 		print("hand1: ", hand1);
 		print("hand2: ", hand2);

@@ -1156,6 +1156,9 @@ public class HandEvaluator {
 					}
 				}
 			}
+		else { //winningHands.size() == 1
+			topHand = winningHands;
+		}
 		
 		return topHand;
 
@@ -1201,6 +1204,30 @@ public class HandEvaluator {
 				return winningCards;
 			}
 			
+		}
+		if (fiveCardHand.getValue() == FiveCardHand.FULL_HOUSE.getValue()) {
+			if (diffCardsArrayOne.length == 5) {
+				//JJJ22 vs AAA33 different middle card
+				if (diffCardsArrayOne[2].getRank().getValue() > diffCardsArrayTwo[2].getRank().getValue()){ //JJJ22 vs AAA33
+					winningCards.add(winnerOne);
+					return winningCards;
+				}
+				else if (diffCardsArrayOne[2].getRank().getValue() < diffCardsArrayTwo[2].getRank().getValue()){
+					winningCards.add(winnerTwo);
+					return winningCards;
+				}
+			}
+			else {//diffCardsArray length equals 2 (AAAJJ vs AAAQQ) or 3 (AAAJJ vs KKKJJ), same middle, but different pair cards
+				if(diffCardsArrayOne[0].getRank().getValue() > diffCardsArrayTwo[0].getRank().getValue()) {
+					winningCards.add(winnerOne);
+					return winningCards;
+				}
+				else {
+					winningCards.add(winnerTwo);
+					return winningCards;
+				}
+			}
+
 		}
 		if (diffCardsArrayOne[0].getRank().getValue() > diffCardsArrayTwo[0].getRank().getValue()) {
 			winningCards.add(winnerOne);
