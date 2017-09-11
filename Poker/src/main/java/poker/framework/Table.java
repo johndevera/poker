@@ -384,6 +384,7 @@ public class Table {
 	private Player [] determineWinners(Game game, List<PlayerHand> playerHandShowdowns) {
 		
 		Map<Player, FiveCardHand> finalHands = new HashMap<>();
+		Map<Player, List<Card>> finalPlayerCards = new HashMap<>();
 		
 		List<Card> communityCards = game.getCommunityCards();
 				
@@ -401,9 +402,21 @@ public class Table {
 			
 			if(winningHand == null || fiveCardHand.getValue() > winningHand.getValue()) {
 				winningHand = fiveCardHand;
+				
+				finalHands.clear();
+				finalPlayerCards.clear();
+				finalHands.put(playerHand.getPlayer(), fiveCardHand);
+				
+				//TODO: Fix this array <--> list -- too much going back and forth
+				Card [] bestFiveCards = HandEvaluator.getBestFiveCards(playerCards.toArray(new Card[0]));
+				finalPlayerCards.put(playerHand.getPlayer(), Arrays.asList(bestFiveCards));
 			}
-			
-			finalHands.put(playerHand.getPlayer(), fiveCardHand);			
+			else if (winningHand == fiveCardHand) {
+				finalHands.put(playerHand.getPlayer(), fiveCardHand);	
+				
+				Card [] bestFiveCards = HandEvaluator.getBestFiveCards(playerCards.toArray(new Card[0]));
+				finalPlayerCards.put(playerHand.getPlayer(), Arrays.asList(bestFiveCards));
+			}			
 		}
 		
 		System.out.println("The Winning hand is " + winningHand);
@@ -421,8 +434,40 @@ public class Table {
 				winningPlayers.add(player);
 			}
 		}
+		
+		List<Card[]> playerCardsToCompare = new ArrayList<>();
+		
+		if(winningPlayers.size() == 1) {
+			return winningPlayers.toArray(new Player[0]);
+		}
+		
+		for(Player player : winningPlayers) {
+			
+			List<Card> playerCardsList 			= finalPlayerCards.get(player);
+			Card [] playerCards 				= playerCardsList.toArray(new Card[0]);
+			playerCardsToCompare.add(playerCards);
+		}
+		
+		// This call gets the actual winning five cards.  We want to relate this back to the winning players		
+		List<Card []> winningFiveCards = HandEvaluator.getBestHand(playerCardsToCompare);
+		
+		List<Player> finalWinningPlayers = new ArrayList<>();
+		
+		for(Card [] winningCards : winningFiveCards) {
+			
+			for(Player player : winningPlayers) {
 				
-		return winningPlayers.toArray(new Player[0]);
+				List<Card> playerCardsList 	= finalPlayerCards.get(player);
+				Card [] playerCards 		= playerCardsList.toArray(new Card[0]);
+				
+				if(HandEvaluator.areCardsEqual(winningCards, playerCards)) {
+					finalWinningPlayers.add(player);
+					break;
+				}
+			}
+		}
+				
+		return finalWinningPlayers.toArray(new Player[0]);
 	}
 		
 	public static void main(String [] args) {

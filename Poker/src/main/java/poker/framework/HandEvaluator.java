@@ -1212,7 +1212,11 @@ public class HandEvaluator {
 		}
 	}
 
-	private static boolean areCardsEqual(Card [] expected, Card [] actual) {	
+	public static boolean areCardsEqual(Card [] expected, Card [] actual) {	
+		
+		sortAscending(expected);
+		sortAscending(actual);
+		
 		return (
 				expected[0] == actual[0] &&
 				expected[1] == actual[1] &&
