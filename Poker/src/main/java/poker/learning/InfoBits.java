@@ -21,6 +21,7 @@ public abstract class InfoBits {
 		if(index < 0 || index >= bits.length) {
 			throw new RuntimeException("ERROR: You cannot update this InfoBit as index = " + index + " is outside the range of bits.  Max = " + numBits());
 		}
+		bits[index] = bit;
 	}
 }
 
