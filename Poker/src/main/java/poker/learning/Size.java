@@ -1,12 +1,18 @@
 package poker.learning;
 
 public enum Size {
-
+	/*
 	BIG(4),
 	ABOVE_AVERAGE(3),
 	AVERAGE(2),
 	BELOW_AVERAGE(1),
 	SMALL(0);
+	*/
+	OOOOO(4),
+	OOOO(3),
+	OOO(2),
+	OO(1),
+	O(0);
 	
 	private int value;
 	

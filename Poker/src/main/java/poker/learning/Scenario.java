@@ -312,7 +312,7 @@ public class Scenario {
 		"---------------------------\n" + 
 		"Street: " + currentStreet + "\n" + 
 		"Num Remaining Players: " + numPlayersRemaining + "\n" +
-		"Stacks: " + printStacks() + "\n" + 
+		"Stacks: " + "\n" + printStacks() + "\n" + 
 		"My Position: " + myPosition + " (" + myPosition.getValue() + ")\n" + 
 		"Opponent Position: " + bettorOpponentPosition + " (" + bettorOpponentPosition.getValue() + ")\n" + 
 		"My Cards: " + myCard1.getShortName() + " ... " + myCard2.getShortName() + "\n" + 
@@ -324,7 +324,7 @@ public class Scenario {
 	private String printStacks() {
 		String toPrint = "";
 		for(int i = 0; i < playerStacks.length; i++) {
-			toPrint += (i + ": " + playerStacks[i] + ", ");
+			toPrint += (i + ": " + playerStacks[i] + "\n");
 		}
 		return toPrint;
 	}
